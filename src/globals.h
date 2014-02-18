@@ -68,7 +68,7 @@ extern rtosc::ThreadLink *uToB;
 /*
  * The poliphony (notes)
  */
-#define POLIPHONY 60
+#define POLIPHONY 128
 
 /*
  * Number of system effects
