@@ -24,7 +24,7 @@
 #define FFT_WRAPPER_H
 #include <fftw3.h>
 #include <complex>
-typedef double                  fftw_real;
+typedef float	fftw_real;
 typedef std::complex<fftw_real> fft_t;
 
 /**A wrapper for the FFTW library (Fast Fourier Transforms)*/
@@ -44,8 +44,8 @@ class FFTwrapper
     private:
         int fftsize;
         fftw_real    *time;
-        fftw_complex *fft;
-        fftw_plan     planfftw, planfftw_inv;
+        fftwf_complex *fft;
+        fftwf_plan     planfftw, planfftw_inv;
 };
 
 void FFT_cleanup();
