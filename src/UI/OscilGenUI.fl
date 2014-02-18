@@ -226,8 +226,6 @@ fl_line(ox+2,oy+ly/2,ox+lx-2,oy+ly/2);
 if (this->active_r()) fl_color(this->parent()->selection_color());
     else fl_color(this->parent()->labelcolor());
     
-fl_color( fl_color_add_alpha( fl_color(), 127 ) );
-
 int lw=2;
 //if ((lx<135)||(ly<135)) lw=1;
 fl_line_style(FL_SOLID,lw);

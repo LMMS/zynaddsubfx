@@ -97,8 +97,6 @@ fl_line_style(FL_SOLID);
    if (active) fl_color(180,210,240);
       else fl_color(150,150,155);
 
-fl_color( fl_color_add_alpha( fl_color(), 127 ) );
-
 fl_begin_polygon();
 fl_vertex( ox, oy + h() );
 for (int i=0;i<lx;i++){

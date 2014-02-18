@@ -120,7 +120,6 @@ for (i=1;i<GY;i++){
 if (active_r()) fl_color(FL_YELLOW);
        else fl_color(200,200,80);
 fl_line_style(FL_SOLID,2);
-fl_color( fl_color_add_alpha( fl_color(), 127 ) );
 oiy=getresponse(ly,getfreqx(0.0));
 fl_begin_line();
 for (i=1;i<lx;i++){
