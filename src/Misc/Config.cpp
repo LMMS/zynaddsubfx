@@ -30,7 +30,8 @@
 
 using namespace std;
 
-Config::Config()
+Config::Config() :
+	workingDir( NULL )
 {}
 void Config::init()
 {
@@ -303,5 +304,12 @@ void Config::saveConfig(const char *filename)
 void Config::getConfigFileName(char *name, int namesize)
 {
     name[0] = 0;
-    snprintf(name, namesize, "%s%s", getenv("HOME"), "/.zynaddsubfxXML.cfg");
+	if( workingDir != NULL )
+	{
+		snprintf(name, namesize, "%s%s", workingDir, ".zynaddsubfxXML.cfg");
+	}
+	else
+	{
+    	snprintf(name, namesize, "%s%s", getenv("HOME"), "/.zynaddsubfxXML.cfg");
+	}
 }
