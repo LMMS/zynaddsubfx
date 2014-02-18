@@ -25,7 +25,9 @@
 #include <cassert>
 #include <math.h>
 #include <stdio.h>
+#ifndef WIN32
 #include <err.h>
+#endif
 
 #include <sys/types.h>
 #include <sys/stat.h>
@@ -152,7 +154,60 @@ void invSignal(float *sig, size_t len)
         sig[i] *= -1.0f;
 }
 
-float SYNTH_T::numRandom()
+//Some memory pools for short term buffer use
+//(avoid the use of new in RT thread(s))
+
+struct pool_entry {
+    bool   free;
+    float *dat;
+};
+typedef std::vector<pool_entry> pool_t;
+typedef pool_t::iterator        pool_itr_t;
+
+pool_t pool;
+
+float *getTmpBuffer()
+{
+    for(pool_itr_t itr = pool.begin(); itr != pool.end(); ++itr)
+        if(itr->free) { //Use Pool
+            itr->free = false;
+            return itr->dat;
+        }
+    pool_entry p; //Extend Pool
+    p.free = false;
+    p.dat  = new float[synth->buffersize];
+    pool.push_back(p);
+
+    return p.dat;
+}
+
+void returnTmpBuffer(float *buf)
+{
+    for(pool_itr_t itr = pool.begin(); itr != pool.end(); ++itr)
+        if(itr->dat == buf) { //Return to Pool
+            itr->free = true;
+            return;
+        }
+    fprintf(stderr,
+            "ERROR: invalid buffer returned %s %d\n",
+            __FILE__,
+            __LINE__);
+}
+
+void clearTmpBuffers(void)
+{
+    for(pool_itr_t itr = pool.begin(); itr != pool.end(); ++itr) {
+#ifndef WIN32
+        if(!itr->free) //Warn about used buffers
+            warn("Temporary buffer (%p) about to be freed may be in use",
+                 itr->dat);
+#endif
+        delete [] itr->dat;
+    }
+    pool.clear();
+}
+
+float SYNTH_T::numRandom() const
 {
     return RND;
 }

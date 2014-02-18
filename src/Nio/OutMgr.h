@@ -4,6 +4,7 @@
 #include "../Misc/Stereo.h"
 #include <list>
 #include <string>
+#include <pthread.h>
 #include <semaphore.h>
 
 
