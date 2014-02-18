@@ -1695,6 +1695,10 @@ bankui=new BankUI(master,&npart);
 configui=new ConfigUI();
 
 make_window();
+\#ifdef OS_WINDOWS
+masterwindow->icon((char *)LoadIcon(GetModuleHandle(NULL), "zynaddsubfx_icon"));
+\#endif
+
 presetsui=new PresetsUI();
 setfilelabel(NULL);
 swapefftype=0;
