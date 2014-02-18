@@ -22,6 +22,9 @@
 
 */
 
+#if 1
+#include "QtXmlWrapper.h"
+#else
 #include <mxml.h>
 #include <string>
 #ifndef float
@@ -268,4 +271,5 @@ class XMLwrapper
         } version;
 };
 
+#endif
 #endif
