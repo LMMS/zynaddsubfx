@@ -21,7 +21,9 @@
 
 #include <cmath>
 #include <cstring>
+#ifndef WIN32
 #include <err.h>
+#endif
 
 #include "Unison.h"
 
@@ -108,8 +110,10 @@ void Unison::updateParameters(void)
     //If functions exceed this limit, they should have requested a bigguer delay
     //and thus are buggy
     if(unison_amplitude_samples >= max_delay - 1) {
+#ifndef WIN32
         warnx("BUG: Unison amplitude samples too big");
         warnx("Unision max_delay should be larger");
+#endif
         unison_amplitude_samples = max_delay - 2;
     }
 

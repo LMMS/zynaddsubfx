@@ -24,7 +24,9 @@
 #include <cstdio>
 #include <cstring>
 #include <cassert>
+#ifndef WIN32
 #include <err.h>
+#endif
 #include "../Misc/Util.h"
 #include "SVFilter.h"
 
@@ -141,7 +143,10 @@ void SVFilter::singlefilterout(float *smp, fstage &x, parameters &par)
             out = &x.notch;
             break;
         default:
+#ifndef WIN32
             errx(1, "Impossible SVFilter type encountered [%d]", type);
+#endif
+			break;
     }
 
     for(int i = 0; i < synth->buffersize; ++i) {

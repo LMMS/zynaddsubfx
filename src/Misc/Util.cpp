@@ -25,7 +25,9 @@
 #include <cassert>
 #include <math.h>
 #include <stdio.h>
+#ifndef WIN32
 #include <err.h>
+#endif
 
 #include <sys/types.h>
 #include <sys/stat.h>
@@ -195,9 +197,11 @@ void returnTmpBuffer(float *buf)
 void clearTmpBuffers(void)
 {
     for(pool_itr_t itr = pool.begin(); itr != pool.end(); ++itr) {
+#ifndef WIN32
         if(!itr->free) //Warn about used buffers
             warn("Temporary buffer (%p) about to be freed may be in use",
                  itr->dat);
+#endif
         delete [] itr->dat;
     }
     pool.clear();
