@@ -27,8 +27,9 @@
 
 #define MAX_DELAY 2
 
-Echo::Echo(bool insertion_, float *efxoutl_, float *efxoutr_, unsigned int srate, int bufsize)
-    :Effect(insertion_, efxoutl_, efxoutr_, NULL, 0, srate, bufsize),
+Echo::Echo(bool insertion_, float *efxoutl_, float *efxoutr_)
+    :Effect(insertion_, efxoutl_, efxoutr_, NULL, 0),
+	samplerate(synth->samplerate),
       Pvolume(50),
       Pdelay(60),
       Plrdelay(100),
@@ -37,8 +38,8 @@ Echo::Echo(bool insertion_, float *efxoutl_, float *efxoutr_, unsigned int srate
       delayTime(1),
       lrdelay(0),
       avgDelay(0),
-      delay(new float[(int)(MAX_DELAY * srate)],
-            new float[(int)(MAX_DELAY * srate)]),
+      delay(new float[(int)(MAX_DELAY * samplerate)],
+            new float[(int)(MAX_DELAY * samplerate)]),
       old(0.0f),
       pos(0),
       delta(1),
