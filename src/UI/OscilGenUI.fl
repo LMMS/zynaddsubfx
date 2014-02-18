@@ -100,6 +100,74 @@ else
   }
   decl {bool phase;} {public local
   }
+  Function {init(OscilGen *oscil_,int oscbase_,int phase_,Master *master_)} {} {
+    code {oscil=oscil_;
+oscbase=oscbase_;
+phase=phase_;
+master=master_;} {}
+  }
+  Function {draw()} {open
+  } {
+    code {int ox=x(),oy=y(),lx=w(),ly=h()-1,i;
+float smps[synth->oscilsize];
+pthread_mutex_lock(&master->mutex);
+if (oscbase==0) oscil->get(smps,-1.0);
+    else oscil->getcurrentbasefunction(smps);
+pthread_mutex_unlock(&master->mutex);
+
+if (damage()!=1){
+ fl_color( fl_color_average( FL_BLACK, FL_BACKGROUND_COLOR, 0.5 ));
+ fl_rectf(ox,oy,lx,ly);
+};
+
+//normalize
+float max=0;
+for (i=0;i<synth->oscilsize;i++)
+   if (max<fabs(smps[i])) max=fabs(smps[i]);
+//fprintf(stderr,"%.4f\\n",max);
+if (max<0.00001) max=1.0;
+max=-max*1.05;
+
+//draw
+fl_line_style(FL_DASH);
+if (this->active_r()) fl_color(this->parent()->labelcolor());
+    else fl_color(this->parent()->color());
+int GX=16;if (lx<GX*3) GX=-1;
+for (i=1;i<GX;i++){
+   int tmp=(int)(lx/(float)GX*i);
+   fl_line(ox+tmp,oy+2,ox+tmp,oy+ly-2);
+};
+int GY=8;if (ly<GY*3) GY=-1;
+for (i=1;i<GY;i++){
+   int tmp=(int)(ly/(float)GY*i);
+   fl_line(ox+2,oy+tmp,ox+lx-2,oy+tmp);
+};
+
+//draw the function
+fl_line_style(0,1);
+fl_line(ox+2,oy+ly/2,ox+lx-2,oy+ly/2);
+if (this->active_r()) fl_color(this->parent()->selection_color());
+    else fl_color(this->parent()->labelcolor());
+    
+int lw=2;
+//if ((lx<135)||(ly<135)) lw=1;
+fl_line_style(FL_SOLID,lw);
+fl_begin_line();
+double ph=((phase-64.0)/128.0*synth->oscilsize+synth->oscilsize);
+for (i=1;i<lx;i++){
+   int k2=(synth->oscilsize*i/lx)+ph;
+   double y2=smps[k2%synth->oscilsize]/max;
+   fl_vertex(i+ox,y2*ly/2.0+oy+ly/2);
+};
+fl_end_line();
+
+fl_line_style(FL_SOLID,0);} {}
+  }
+  decl {OscilGen *oscil;} {}
+  decl {int oscbase;} {}
+  decl {int phase;} {public
+  }
+  decl {Master *master;} {}
 } 
 
 class Oscilharmonic {: {public Fl_Group}

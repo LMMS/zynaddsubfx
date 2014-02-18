@@ -35,8 +35,106 @@ decl {\#include "EnvelopeUI.h"} {public local
 decl {\#include "FilterUI.h"} {public local
 } 
 
-decl {\#include "../Misc/Util.h"} {public local
-} 
+class EQGraph {: {public Fl_Box}
+} {
+  Function {EQGraph(int x,int y, int w, int h, const char *label=0):Fl_Box(x,y,w,h,label)} {} {
+    code {eff=NULL;
+maxdB=30;} {}
+  }
+  Function {init(EffectMgr *eff_)} {} {
+    code {eff=eff_;
+oldx=-1;
+khzval=-1;} {}
+  }
+  Function {draw_freq_line(float freq,int type)} {} {
+    code {fl_color(FL_GRAY);
+float freqx=getfreqpos(freq);
+switch(type){
+  case 0:if (active_r()) fl_color(FL_WHITE);
+            else fl_color(205,205,205);
+         fl_line_style(FL_SOLID);
+         break;
+  case 1:fl_line_style(FL_DOT);break;
+  case 2:fl_line_style(FL_DASH);break;
+}; 
+
+
+if ((freqx>0.0)&&(freqx<1.0))
+   fl_line(x()+(int) (freqx*w()),y(),
+   x()+(int) (freqx*w()),y()+h());} {}
+  }
+  Function {draw()} {} {
+    code {int ox=x(),oy=y(),lx=w(),ly=h(),i;
+    double iy,oiy;
+float freqx;
+
+if (active_r()) fl_color(fl_darker(FL_GRAY));
+       else fl_color(FL_GRAY);
+fl_rectf(ox,oy,lx,ly);
+
+
+//draw the lines
+fl_color(fl_lighter( FL_GRAY));
+
+fl_line_style(FL_SOLID);
+fl_line(ox+2,oy+ly/2,ox+lx-2,oy+ly/2);
+
+freqx=getfreqpos(1000.0);
+if ((freqx>0.0)&&(freqx<1.0))
+   fl_line(ox+(int) (freqx*lx),oy,
+    ox+(int) (freqx*lx),oy+ly);
+
+for (i=1;i<10;i++){
+   if(i==1){
+     draw_freq_line(i*100.0,0);
+     draw_freq_line(i*1000.0,0);
+   }else 
+    if (i==5){
+      draw_freq_line(i*10.0,2);
+      draw_freq_line(i*100.0,2);
+      draw_freq_line(i*1000.0,2);
+    }else{
+      draw_freq_line(i*10.0,1);
+      draw_freq_line(i*100.0,1);
+      draw_freq_line(i*1000.0,1);
+    };
+};
+
+draw_freq_line(10000.0,0);
+draw_freq_line(20000.0,1);
+
+
+fl_line_style(FL_DOT);
+int GY=6;if (ly<GY*3) GY=-1;
+for (i=1;i<GY;i++){
+   int tmp=(int)(ly/(float)GY*i);
+   fl_line(ox+2,oy+tmp,ox+lx-2,oy+tmp);
+};
+
+
+//draw the frequency response
+if (active_r()) fl_color(FL_YELLOW);
+       else fl_color(200,200,80);
+fl_line_style(FL_SOLID,2);
+oiy=getresponse(ly,getfreqx(0.0));
+fl_begin_line();
+for (i=1;i<lx;i++){
+   float frq=getfreqx(i/(float) lx);
+   if (frq>synth->samplerate/2) break;
+   iy=getresponse(ly,frq);
+   if ((oiy>=0) && (oiy<ly) &&
+       (iy>=0) && (iy<ly) )
+        fl_vertex(ox+i,oy+ly-iy);
+   oiy=iy;
+};
+fl_end_line();
+fl_line_style(FL_SOLID,0);} {}
+  }
+  Function {getresponse(int maxy,float freq)} {return_type double
+  } {
+    code {float dbresp=eff->getEQfreqresponse(freq);
+int idbresp=(int) ((dbresp/maxdB+1.0)*maxy/2.0);
+
 
 decl {\#include "../Effects/EffectMgr.h"} {public local
 } 

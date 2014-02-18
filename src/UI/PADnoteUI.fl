@@ -41,7 +41,86 @@ decl {\#include <string.h>} {private local
 decl {\#include <string>} {public local
 } 
 
-decl {\#include "Fl_Osc_Slider.H"} {public local
+class PADnoteHarmonicProfile {: {public Fl_Box}
+} {
+  Function {PADnoteHarmonicProfile(int x,int y, int w, int h, const char *label=0):Fl_Box(x,y,w,h,label)} {} {
+    code {pars=NULL;} {}
+  }
+  Function {init(PADnoteParameters *pars,Master *master_)} {} {
+    code {master=master_;
+this->pars=pars;} {}
+  }
+  Function {draw()} {} {
+    code {int ox=x(),oy=y(),lx=w(),ly=h();
+if (!visible()) return;
+float smps[lx];
+
+float realbw=pars->getprofile(smps,lx);
+bool active=active_r();
+
+//draw the equivalent bandwidth
+if (active) fl_color(220,220,220);
+ else fl_color(160,165,165);
+fl_line_style(FL_DASH);
+int rbw=(int)(realbw*(lx-1.0)/2.0);
+fl_begin_line();
+for (int i=lx/2-rbw;i<(lx/2+rbw);i++) { fl_vertex(ox+i,oy); }
+fl_end_line();
+
+fl_line_style(FL_DASH);
+if (active) fl_color(200,200,200);
+ else  fl_color(160,160,160);
+for (int i=1;i<10;i++){
+	int kx=(int)(lx/10.0*i);
+	fl_line( ox + kx, oy, ox + kx, oy + ly - 1 );
+};
+for (int i=1;i<5;i++){
+	int ky=(int)(ly/5.0*i);
+	fl_line(ox,oy+ly-ky,ox+lx,oy+ly-ky-1);
+};
+
+
+fl_color(120,120,120);
+fl_line_style(FL_DASH);
+fl_line(ox+lx/2,oy,ox+lx/2,oy+ly);
+
+//draw the graph
+fl_line_style(FL_SOLID);
+   if (active) fl_color(180,210,240);
+      else fl_color(150,150,155);
+
+fl_begin_polygon();
+fl_vertex( ox, oy + h() );
+for (int i=0;i<lx;i++){
+   int val=(int) ((ly-2)*smps[i]);
+ 
+//   fl_vertex(ox+i,oy+ly-1);
+   fl_vertex(ox+i,oy+ly-1-val);
+
+  // if (active) fl_color(0,0,100);
+  //     else fl_color(150,150,150);
+
+//   if (i>0)
+//	{
+//	 fl_vertex(ox+i-1,oy+ly-2-old);
+//	fl_vertex(ox+i,oy+ly-2-val);
+//	}
+};
+fl_vertex( ox + w(), oy + h() );
+fl_end_polygon();
+
+
+fl_line_style(FL_DASH);
+if (active) fl_color(0,100,220);
+    else fl_color(150,160,170);
+fl_line(ox+lx/2-rbw,oy,ox+lx/2-rbw,oy+ly-1);
+fl_line(ox+lx/2+rbw,oy,ox+lx/2+rbw,oy+ly-1);
+
+fl_line_style(0);} {}
+  }
+  decl {Master *master;} {}
+  decl {PADnoteParameters *pars;} {public
+  }
 } 
 
 decl {\#include "Fl_Osc_VSlider.H"} {public local
