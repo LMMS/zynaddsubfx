@@ -153,7 +153,7 @@ fl_line_style(FL_SOLID,0);} {}
     code {delete [] graphpoints;} {}
   }
   decl {FilterParams *pars;} {}
-  decl {int oldx,oldy;} {}
+  decl {int oldx;} {}
   decl {int *nvowel,*nformant;} {}
   decl {float *graphpoints;} {}
 } 
