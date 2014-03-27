@@ -25,4 +25,6 @@ Contributors:
         Jonathan Liles (NSM & NTK support)
         Johannes Lorenz (Effect Documentation)
         Ilario Glasgo (Italian Doc Translation)
+        Christopher Oliver (Unison Regrssion Fix, presets fix)
+        Filipe Coelho (Globals Cleanup)
 

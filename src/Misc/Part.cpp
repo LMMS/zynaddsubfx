@@ -153,21 +153,21 @@ void Part::defaultsinstrument()
 /*
  * Cleanup the part
  */
-void Part::cleanup(bool final)
+void Part::cleanup(bool final_)
 {
     for(int k = 0; k < POLIPHONY; ++k)
         KillNotePos(k);
     for(int i = 0; i < synth->buffersize; ++i) {
-        partoutl[i] = final ? 0.0f : denormalkillbuf[i];
-        partoutr[i] = final ? 0.0f : denormalkillbuf[i];
+        partoutl[i] = final_ ? 0.0f : denormalkillbuf[i];
+        partoutr[i] = final_ ? 0.0f : denormalkillbuf[i];
     }
     ctl.resetall();
     for(int nefx = 0; nefx < NUM_PART_EFX; ++nefx)
         partefx[nefx]->cleanup();
     for(int n = 0; n < NUM_PART_EFX + 1; ++n)
         for(int i = 0; i < synth->buffersize; ++i) {
-            partfxinputl[n][i] = final ? 0.0f : denormalkillbuf[i];
-            partfxinputr[n][i] = final ? 0.0f : denormalkillbuf[i];
+            partfxinputl[n][i] = final_ ? 0.0f : denormalkillbuf[i];
+            partfxinputr[n][i] = final_ ? 0.0f : denormalkillbuf[i];
         }
 }
 
@@ -947,8 +947,8 @@ void Part::RunNote(unsigned int k)
                 continue;
             noteplay++;
 
-            float *tmpoutr = getTmpBuffer();
-            float *tmpoutl = getTmpBuffer();
+            float tmpoutr[synth->buffersize];
+            float tmpoutl[synth->buffersize];
             (*note)->noteout(&tmpoutl[0], &tmpoutr[0]);
 
             if((*note)->finished()) {
@@ -959,8 +959,6 @@ void Part::RunNote(unsigned int k)
                 partfxinputl[sendcurrenttofx][i] += tmpoutl[i];
                 partfxinputr[sendcurrenttofx][i] += tmpoutr[i];
             }
-            returnTmpBuffer(tmpoutr);
-            returnTmpBuffer(tmpoutl);
         }
     }
 

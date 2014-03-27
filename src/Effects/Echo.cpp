@@ -27,9 +27,8 @@
 
 #define MAX_DELAY 2
 
-Echo::Echo(bool insertion_, float *efxoutl_, float *efxoutr_)
-    :Effect(insertion_, efxoutl_, efxoutr_, NULL, 0),
-	samplerate(synth->samplerate),
+Echo::Echo(bool insertion_, float *efxoutl_, float *efxoutr_, unsigned int srate, int bufsize)
+    :Effect(insertion_, efxoutl_, efxoutr_, NULL, 0, srate, bufsize),
       Pvolume(50),
       Pdelay(60),
       Plrdelay(100),
@@ -38,8 +37,8 @@ Echo::Echo(bool insertion_, float *efxoutl_, float *efxoutr_)
       delayTime(1),
       lrdelay(0),
       avgDelay(0),
-      delay(new float[(int)(MAX_DELAY * samplerate)],
-            new float[(int)(MAX_DELAY * samplerate)]),
+      delay(new float[(int)(MAX_DELAY * srate)],
+            new float[(int)(MAX_DELAY * srate)]),
       old(0.0f),
       pos(0),
       delta(1),
@@ -85,7 +84,7 @@ void Echo::initdelays(void)
 //Effect output
 void Echo::out(const Stereo<float *> &input)
 {
-    for(int i = 0; i < synth->buffersize; ++i) {
+    for(int i = 0; i < buffersize; ++i) {
         float ldl = delay.l[pos.l];
         float rdl = delay.r[pos.r];
         ldl = ldl * (1.0f - lrcross) + rdl * lrcross;
