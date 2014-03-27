@@ -142,7 +142,23 @@ decl {\#include "../Effects/EffectMgr.h"} {public local
 decl {\#include "PresetsUI.h"} {public local
 } 
 
-decl {\#include "common.H"} {public local
+return(idbresp);} {}
+  }
+  Function {getfreqx(float x)} {return_type float
+  } {
+    code {if (x>1.0) x=1.0;
+return(20.0*pow((float)1000.0,x));} {}
+  }
+  Function {getfreqpos(float freq)} {return_type float
+  } {
+    code {if (freq<0.00001) freq=0.00001;
+return(log(freq/20.0)/log(1000.0));} {}
+  }
+  decl {int oldx;} {}
+  decl {float khzval;} {public
+  }
+  decl {EffectMgr *eff;} {}
+  decl {int maxdB;} {}
 } 
 
 class EffUI {open : {public Fl_Osc_Group,public PresetsUI_}

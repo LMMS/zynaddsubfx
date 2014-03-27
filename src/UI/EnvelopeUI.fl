@@ -50,7 +50,14 @@ decl {\#include "PresetsUI.h"} {public local
 decl {\#include "common.H"} {public local
 } 
 
-decl {\#include "EnvelopeFreeEdit.h"} {public local
+return(1);} {}
+  }
+  decl {Fl_Box *pair;} {}
+  decl {EnvelopeParams *env;} {}
+  decl {int oldx;} {}
+  decl {int currentpoint,cpx,cpdt;} {}
+  decl {int lastpoint;} {public
+  }
 } 
 
 class EnvelopeUI {open : {public Fl_Osc_Group,PresetsUI_}

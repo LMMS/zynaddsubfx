@@ -62,7 +62,25 @@ decl {\#include "PresetsUI.h"} {public local
 decl {\#include "common.H"} {public local
 } 
 
-decl {\#include "FormantFilterGraph.H"} {public local
+fl_line_style( FL_SOLID, 2 );
+fl_begin_line();
+oiy=(int) ((graphpoints[0]/maxdB+1.0)*ly/2.0);
+for (i=1;i<lx;i++){
+   double iy= ((graphpoints[i]/maxdB+1.0)*ly/2.0);
+   if ((iy>=0)&&(oiy>=0)&&(iy<ly)&&(oiy<lx))
+      fl_vertex(ox+i,oy+ly-iy);
+   oiy=iy;
+};
+fl_end_line();
+fl_line_style(FL_SOLID,0);} {}
+  }
+  Function {~FormantFilterGraph()} {} {
+    code {delete [] graphpoints;} {}
+  }
+  decl {FilterParams *pars;} {}
+  decl {int oldx;} {}
+  decl {int *nvowel,*nformant;} {}
+  decl {float *graphpoints;} {}
 } 
 
 class FilterUI {open : {public Fl_Osc_Group,PresetsUI_}
