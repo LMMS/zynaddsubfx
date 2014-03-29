@@ -29,6 +29,7 @@
 
 Echo::Echo(bool insertion_, float *efxoutl_, float *efxoutr_, unsigned int srate, int bufsize)
     :Effect(insertion_, efxoutl_, efxoutr_, NULL, 0, srate, bufsize),
+      samplerate(srate),
       Pvolume(50),
       Pdelay(60),
       Plrdelay(100),
