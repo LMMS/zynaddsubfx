@@ -799,8 +799,7 @@ if (x==2) part->partefx[ninseff]->setdryonly(true);
     }
     Fl_Window instrumenteditwindow {
       label {Instrument Edit} open
-      xywh {262 621 395 360} type Double box NO_BOX
-      class Fl_Osc_Window visible
+      xywh {182 214 395 360} type Double hide
     } {
       Fl_Box {} {
         xywh {0 0 0 0}
