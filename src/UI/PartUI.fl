@@ -58,7 +58,7 @@ class PartSysEffSend {open : {public Fl_Group}
   Function {make_window()} {open private
   } {
     Fl_Window syseffsend {
-      private xywh {604 244 100 100} type Double box NO_BOX
+      private xywh {604 244 100 100} type Double box FLAT_BOX
       class Fl_Group visible
     } {
       Fl_Dial {} {
@@ -97,7 +97,7 @@ class PartKitItem {open : {public Fl_Osc_Group}
   Function {make_window()} {open private
   } {
     Fl_Window partkititem {
-      private xywh {488 521 670 100} type Double box NO_BOX
+      private xywh {488 521 670 100} type Double box FLAT_BOX
       class Fl_Osc_Group visible
     } {
       Fl_Group partkititemgroup {
@@ -245,7 +245,7 @@ class PartUI {open : {public Fl_Osc_Group}
   Function {make_window()} {open private
   } {
     Fl_Window partgroup {
-      private xywh {703 379 385 180} type Double box NO_BOX
+      private xywh {703 379 385 180} type Double box FLAT_BOX
       class Fl_Group visible
     } {
       Fl_Group partgroupui {open
@@ -408,7 +408,7 @@ osc->write("/setkeylimit", "i", val);} open
     }
     Fl_Window ctlwindow {
       label Controllers
-      private xywh {777 376 500 130} type Double box NO_BOX
+      private xywh {777 376 500 130} type Double box FLAT_BOX
       class Fl_Osc_Window visible
     } {
       Fl_Box {} {
@@ -586,7 +586,7 @@ else {propta->deactivate();proptb->deactivate();}}
     }
     Fl_Window partfx {
       label {Part's Insert Effects}
-      private xywh {569 775 390 145} type Double box NO_BOX
+      private xywh {569 775 390 145} type Double box FLAT_BOX
       class Fl_Osc_Window visible
     } {
       Fl_Box {} {
@@ -717,7 +717,7 @@ if (x==2) part->partefx[ninseff]->setdryonly(true);
     }
     Fl_Window instrumentkitlist {
       label {Instrument Kit}
-      xywh {601 611 670 370} type Double box NO_BOX
+      xywh {601 611 670 370} type Double box FLAT_BOX
       class Fl_Osc_Window visible
     } {
       Fl_Box {} {
@@ -799,7 +799,7 @@ if (x==2) part->partefx[ninseff]->setdryonly(true);
     }
     Fl_Window instrumenteditwindow {
       label {Instrument Edit} open
-      xywh {182 214 395 360} type Double hide
+      xywh {182 214 395 360} type Double box FLAT_BOX visible
     } {
       Fl_Box {} {
         xywh {0 0 0 0}

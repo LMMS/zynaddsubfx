@@ -744,7 +744,7 @@ cbwidget->do_callback();}
             } {}
             Fl_Slider detune {
               callback {o->oscWrite("detunevalue");}
-              tooltip {Fine Detune (cents)} xywh {60 295 295 15} type {Horz Knob} box NO_BOX minimum -8192 maximum 8191 step 1
+              tooltip {Fine Detune (cents)} xywh {60 295 295 15} type {Horz Knob} box FLAT_BOX minimum -8192 maximum 8191 step 1
               code0 {o->init("PDetune", 'i');}
               class Fl_Osc_Slider
             }
@@ -783,7 +783,7 @@ cbwidget->do_callback();}
           } {
             Fl_Value_Slider volume {
               label Vol
-              tooltip Volume xywh {10 50 160 15} type {Horz Knob} box NO_BOX labelsize 11 align 8 maximum 127 step 1
+              tooltip Volume xywh {10 50 160 15} type {Horz Knob} box FLAT_BOX labelsize 11 align 8 maximum 127 step 1
               code0 {o->init("PVolume", 'c');}
               class Fl_Osc_VSlider
             }

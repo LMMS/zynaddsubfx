@@ -91,7 +91,7 @@ class ADvoicelistitem {open : {public Fl_Osc_Group}
         class Fl_Osc_Group
       } {
         Fl_Value_Slider voicevolume {
-          tooltip Volume xywh {90 5 115 20} type {Horz Knob} box NO_BOX labelsize 8 align 5 maximum 127 step 1
+          tooltip Volume xywh {90 5 115 20} type {Horz Knob} box FLAT_BOX labelsize 8 align 5 maximum 127 step 1
           code1 {o->init("PVolume");}
           class Fl_Osc_VSlider
         }
@@ -101,7 +101,7 @@ class ADvoicelistitem {open : {public Fl_Osc_Group}
           class Fl_Osc_Check
         }
         Fl_Value_Slider voicelfofreq {
-          tooltip {Frequency LFO amount} xywh {500 5 115 20} type {Horz Knob} box NO_BOX labelsize 8 align 5 maximum 127 step 1
+          tooltip {Frequency LFO amount} xywh {500 5 115 20} type {Horz Knob} box FLAT_BOX labelsize 8 align 5 maximum 127 step 1
           code0 {o->init("FreqLfo/Pintensity");}
           class Fl_Osc_Slider
         }
@@ -124,7 +124,7 @@ class ADvoicelistitem {open : {public Fl_Osc_Group}
         }
         Fl_Slider voicedetune {
           callback {//detunevalueoutput->do_callback();}
-          tooltip {Fine Detune (cents)} xywh {315 5 185 20} type {Horz Knob} box NO_BOX minimum -8192 maximum 8191 step 1
+          tooltip {Fine Detune (cents)} xywh {315 5 185 20} type {Horz Knob} box FLAT_BOX minimum -8192 maximum 8191 step 1
           code0 {o->init("PDetune",'i');}
           class Fl_Osc_Slider
         }
@@ -205,7 +205,7 @@ class ADvoiceUI {open : {public Fl_Group}
   } {
     Fl_Window ADnoteVoiceParameters {
       label Voice open
-      xywh {512 391 765 595} type Double box NO_BOX
+      xywh {512 391 765 595} type Double box FLAT_BOX
       class Fl_Osc_Group visible
     } {
       Fl_Box {} {
@@ -258,7 +258,7 @@ o->redraw();}
               }
               Fl_Slider {} {
                 callback {o->oscWrite("detunevalue");}
-                tooltip {Fine Detune (cents)} xywh {590 245 155 15} type {Horz Knob} box NO_BOX minimum -8192 maximum 8191 step 1
+                tooltip {Fine Detune (cents)} xywh {590 245 155 15} type {Horz Knob} box FLAT_BOX minimum -8192 maximum 8191 step 1
                 code0 {o->init("PFMDetune", 'i');}
                 class Fl_Osc_Slider
               }
@@ -284,7 +284,7 @@ o->redraw();}
             } {
               Fl_Value_Slider {} {
                 label Vol
-                tooltip Volume xywh {540 80 160 15} type {Horz Knob} box NO_BOX labelsize 11 align 8 maximum 127 step 1
+                tooltip Volume xywh {540 80 160 15} type {Horz Knob} box FLAT_BOX labelsize 11 align 8 maximum 127 step 1
                 code0 {o->init("PFMVolume", 'c');}
                 class Fl_Osc_Slider
               }
@@ -312,7 +312,7 @@ o->redraw();}
               }
               Fl_Value_Slider {} {
                 label {F.Damp}
-                tooltip {Modulator Damp at Higher frequency} xywh {540 120 160 15} type {Horz Knob} box NO_BOX labelsize 11 align 8 minimum -64 maximum 63 step 1
+                tooltip {Modulator Damp at Higher frequency} xywh {540 120 160 15} type {Horz Knob} box FLAT_BOX labelsize 11 align 8 minimum -64 maximum 63 step 1
                 code0 {o->init("PFMVolumeDamp",'c');}
                 class Fl_Osc_Slider
               }
@@ -349,7 +349,7 @@ oscedit=new OscilEditor(true, loc+"mod-oscil/", osc_i);}
                 label Phase
                 callback {oscFM->phase=64-(int) o->value();
 fmoscil->redraw();}
-                xywh {645 415 105 15} type {Horz Knob} box NO_BOX labelsize 10 align 5 minimum -64 maximum 63 step 1
+                xywh {645 415 105 15} type {Horz Knob} box FLAT_BOX labelsize 10 align 5 minimum -64 maximum 63 step 1
                 code0 {o->init("PFMoscilphase", 'c');}
                 class Fl_Osc_Slider
               }
@@ -472,7 +472,7 @@ o->redraw();}
             }
             Fl_Slider {} {
               callback {detunevalueoutput->do_callback();}
-              tooltip {Fine Detune (cents)} xywh {58 287 392 13} type {Horz Knob} box NO_BOX minimum -8192 maximum 8191 step 1
+              tooltip {Fine Detune (cents)} xywh {58 287 392 13} type {Horz Knob} box FLAT_BOX minimum -8192 maximum 8191 step 1
               code0 {o->init("PDetune", 'i');}
               class Fl_Osc_Slider
             }
@@ -531,7 +531,7 @@ o->redraw();}
             label Phase
             callback {osc->phase=64-(int) o->value();
 voiceoscil->redraw();}
-            xywh {10 435 65 10} type {Horz Knob} box NO_BOX labelsize 10 align 5 minimum -64 maximum 63 step 1
+            xywh {10 435 65 10} type {Horz Knob} box FLAT_BOX labelsize 10 align 5 minimum -64 maximum 63 step 1
             code0 {o->init("Poscilphase", 'c');}
             class Fl_Osc_Slider
           }
@@ -592,7 +592,7 @@ voiceonbutton->redraw();} open
             Fl_Slider {} {
               label {Frequency Spread}
               callback {//unisonspreadoutput->do_callback();}
-              tooltip {Frequency Spread of the Unison} xywh {95 562 125 13} type {Horz Knob} box NO_BOX labelsize 12 align 1 maximum 127 step 1 value 64
+              tooltip {Frequency Spread of the Unison} xywh {95 562 125 13} type {Horz Knob} box FLAT_BOX labelsize 12 align 1 maximum 127 step 1 value 64
               code0 {o->init("Unison_frequency_spread", 'c');}
               class Fl_Osc_Slider
             }
@@ -623,7 +623,7 @@ voiceonbutton->redraw();} open
         } {
           Fl_Value_Slider {} {
             label Vol
-            tooltip Volume xywh {10 60 160 15} type {Horz Knob} box NO_BOX labelsize 11 align 8 maximum 127 step 1
+            tooltip Volume xywh {10 60 160 15} type {Horz Knob} box FLAT_BOX labelsize 11 align 8 maximum 127 step 1
             code0 {o->init("PVolume");}
             class Fl_Osc_VSlider
           }
@@ -751,7 +751,7 @@ o->redraw();}
         } {
           Fl_Value_Slider {} {
             label Delay
-            tooltip Volume xywh {120 21 84 12} type {Horz Knob} box NO_BOX labelsize 11 align 5 maximum 127 step 1
+            tooltip Volume xywh {120 21 84 12} type {Horz Knob} box FLAT_BOX labelsize 11 align 5 maximum 127 step 1
             code0 {o->init("PDelay");}
             class Fl_Osc_VSlider
           }
@@ -871,7 +871,7 @@ class ADnoteUI {open : {public PresetsUI_}
         } {}
         Fl_Slider detune {
           callback {o->oscWrite("detunevalue");}
-          tooltip {Fine Detune (cents)} xywh {60 300 385 15} type {Horz Knob} box NO_BOX minimum -8192 maximum 8191 step 1
+          tooltip {Fine Detune (cents)} xywh {60 300 385 15} type {Horz Knob} box FLAT_BOX minimum -8192 maximum 8191 step 1
           code0 {o->init("PDetune", 'i');}
           class Fl_Osc_Slider
         }
@@ -905,7 +905,7 @@ class ADnoteUI {open : {public PresetsUI_}
       } {
         Fl_Value_Slider volume {
           label Vol
-          tooltip Volume xywh {10 30 160 15} type {Horz Knob} box NO_BOX labelsize 11 align 8 maximum 127 step 1
+          tooltip Volume xywh {10 30 160 15} type {Horz Knob} box FLAT_BOX labelsize 11 align 8 maximum 127 step 1
           code0 {o->init("PVolume");}
           class Fl_Osc_VSlider
         }
@@ -1080,27 +1080,27 @@ advoice->change_voice(nvoice);}
       }
       Fl_Text_Display {} {
         label {No.}
-        xywh {10 15 30 10} box NO_BOX labelfont 1 labelsize 11
+        xywh {10 15 30 10} box FLAT_BOX labelfont 1 labelsize 11
       }
       Fl_Text_Display {} {
         label Vol
-        xywh {145 15 30 10} box NO_BOX labelfont 1 labelsize 11
+        xywh {145 15 30 10} box FLAT_BOX labelfont 1 labelsize 11
       }
       Fl_Text_Display {} {
         label Detune
-        xywh {384 15 25 10} box NO_BOX labelfont 1 labelsize 11
+        xywh {384 15 25 10} box FLAT_BOX labelfont 1 labelsize 11
       }
       Fl_Text_Display {} {
         label Pan
-        xywh {210 15 30 10} box NO_BOX labelfont 1 labelsize 11
+        xywh {210 15 30 10} box FLAT_BOX labelfont 1 labelsize 11
       }
       Fl_Text_Display {} {
         label {Vib. Depth}
-        xywh {560 15 30 10} box NO_BOX labelfont 1 labelsize 11
+        xywh {560 15 30 10} box FLAT_BOX labelfont 1 labelsize 11
       }
       Fl_Text_Display {} {
         label {R.}
-        xywh {245 15 25 10} box NO_BOX labelfont 1 labelsize 11
+        xywh {245 15 25 10} box FLAT_BOX labelfont 1 labelsize 11
       }
       Fl_Button {} {
         label {Hide Voice List}

@@ -175,7 +175,7 @@ class Oscilharmonic {: {public Fl_Group}
   Function {make_window()} {open private
   } {
     Fl_Window harmonic {open
-      private xywh {467 756 100 225} type Double box NO_BOX
+      private xywh {467 756 100 225} type Double box FLAT_BOX
       class Fl_Osc_Group visible
     } {
       Fl_Slider mag {
@@ -195,7 +195,7 @@ if (x==64) o->selection_color(0);
  o->osc->requestValue(o->loc+"waveform");
 
 display->redraw();}
-        xywh {0 15 15 115} type {Vert Knob} box NO_BOX selection_color 222 maximum 127 step 1 value 64
+        xywh {0 15 15 115} type {Vert Knob} box FLAT_BOX selection_color 222 maximum 127 step 1 value 64
         code0 {o->phase=false;//o->value(127-oscil->Phmag[n]);}
         code1 {//if (oscil->Phmag[n]==64) o->selection_color(0);}
         class PSlider
@@ -211,7 +211,7 @@ o->osc->requestValue(o->loc+"spectrum");
 o->osc->requestValue(o->loc+"waveform");
 
 display->redraw();}
-        xywh {0 135 15 75} type {Vert Knob} box NO_BOX selection_color 222 maximum 127 step 1 value 64
+        xywh {0 135 15 75} type {Vert Knob} box FLAT_BOX selection_color 222 maximum 127 step 1 value 64
         code0 {o->phase=true;//o->value(oscil->Phphase[n]);}
         class PSlider
       }
@@ -914,7 +914,7 @@ redrawoscil();}
           Fl_Slider adhrpar {
             callback {//oscil->Padaptiveharmonicspar=(int)o->value();
 redrawoscil();}
-            xywh {675 450 55 10} type {Horz Knob} box NO_BOX maximum 100 step 1 value 50
+            xywh {675 450 55 10} type {Horz Knob} box FLAT_BOX maximum 100 step 1 value 50
           }
         }
         Fl_Group {} {
