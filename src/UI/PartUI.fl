@@ -799,7 +799,7 @@ if (x==2) part->partefx[ninseff]->setdryonly(true);
     }
     Fl_Window instrumenteditwindow {
       label {Instrument Edit} open
-      xywh {182 214 395 360} type Double box FLAT_BOX visible
+      xywh {247 621 395 360} type Double box FLAT_BOX visible
     } {
       Fl_Box {} {
         xywh {0 0 0 0}
