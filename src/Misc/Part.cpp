@@ -1014,7 +1014,6 @@ void Part::ComputePartSmps()
         killallnotes = false;
         for(int nefx = 0; nefx < NUM_PART_EFX; ++nefx)
             partefx[nefx]->cleanup();
-        monomemnotes.clear();
     }
     ctl.updateportamento();
 }
