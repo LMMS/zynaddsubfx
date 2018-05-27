@@ -23,34 +23,40 @@
 #ifndef NUL_ENGINE_H
 #define NUL_ENGINE_H
 
-#include <sys/time.h>
-#include <pthread.h>
+#include <chrono>
+#include <thread>
+#include <ratio>
 #include "../globals.h"
 #include "AudioOut.h"
 #include "MidiIn.h"
 
 class NulEngine:public AudioOut, MidiIn
 {
-    public:
+        using time_point = std::chrono::steady_clock::time_point;
+        using clock = std::chrono::steady_clock;
+        using duration = clock::duration;
+        static_assert(std::ratio_less_equal<clock::duration::period, std::micro>::value,
+            "clock doesn't support microsecond resolution");
+public:
         NulEngine();
         ~NulEngine();
 
         bool Start();
         void Stop();
 
-        void setAudioEn(bool nval);
+        void setAudioEn(bool nval) ;
         bool getAudioEn() const;
 
         void setMidiEn(bool) {}
         bool getMidiEn() const {return true; }
 
     protected:
-        void *AudioThread();
-        static void *_AudioThread(void *arg);
+        void AudioThread();
 
     private:
-        struct timeval playing_until;
-        pthread_t     *pThread;
+        time_point playing_until;
+        std::thread thread;
+        bool audioEnable;
 };
 
 #endif

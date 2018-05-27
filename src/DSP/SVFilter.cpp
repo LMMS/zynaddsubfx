@@ -24,6 +24,7 @@
 #include <cstdio>
 #include <cstring>
 #include <cassert>
+#include <vector>
 #ifndef WIN32
 #include <err.h>
 #endif
@@ -165,11 +166,11 @@ void SVFilter::filterout(float *smp)
         singlefilterout(smp, st[i], par);
 
     if(needsinterpolation) {
-        float ismp[buffersize];
-        memcpy(ismp, smp, bufferbytes);
+        std::vector<float> ismp(buffersize);
+        memcpy(ismp.data(), smp, bufferbytes);
 
         for(int i = 0; i < stages + 1; ++i)
-            singlefilterout(ismp, st[i], ipar);
+            singlefilterout(ismp.data(), st[i], ipar);
 
         for(int i = 0; i < buffersize; ++i) {
             float x = i / buffersize_f;

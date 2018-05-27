@@ -3,8 +3,6 @@
 #define SAFEQUEUE_H
 #include <cstdlib>
 #include "ZynSema.h"
-#include <pthread.h>
-#include <semaphore.h>
 
 /**
  * C++ thread safe lockless queue

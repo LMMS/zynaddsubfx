@@ -25,7 +25,7 @@
 #include <cstring> //memcpy
 #include <cmath>
 #include <cassert>
-
+#include <vector>
 #include "../Misc/Util.h"
 #include "AnalogFilter.h"
 
@@ -391,11 +391,11 @@ void AnalogFilter::filterout(float *smp)
 
     if(needsinterpolation) {
         //Merge Filter at old coeff with new coeff
-        float ismp[buffersize];
-        memcpy(ismp, smp, bufferbytes);
+        std::vector<float> ismp(buffersize);
+        memcpy(ismp.data(), smp, bufferbytes);
 
         for(int i = 0; i < stages + 1; ++i)
-            singlefilterout(ismp, oldHistory[i], oldCoeff);
+            singlefilterout(ismp.data(), oldHistory[i], oldCoeff);
 
         for(int i = 0; i < buffersize; ++i) {
             float x = (float)i / buffersize_f;

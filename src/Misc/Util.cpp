@@ -21,18 +21,22 @@
 */
 
 #include "Util.h"
-#include <vector>
+#include <string>
 #include <cassert>
 #include <math.h>
 #include <stdio.h>
 #ifndef WIN32
 #include <err.h>
+#else
+#include <windows.h>
 #endif
 
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <fcntl.h>
-#include <unistd.h>
+#include <thread>
+#include <chrono>
+
 #include <errno.h>
 #include <string.h>
 #ifdef HAVE_SCHEDULER
@@ -135,7 +139,7 @@ void set_realtime()
 
 void os_sleep(long length)
 {
-    usleep(length);
+    std::this_thread::sleep_for(std::chrono::microseconds(length));
 }
 
 std::string legalizeFilename(std::string filename)
@@ -210,6 +214,39 @@ void clearTmpBuffers(void)
 float SYNTH_T::numRandom()
 {
     return RND;
+}
+
+std::vector<std::string> GetDirectory(const char* path)
+{
+    std::vector<std::string> entries;
+
+#ifdef WIN32
+    WIN32_FIND_DATA findFileData;
+    HANDLE hFind = FindFirstFile(path, &findFileData);
+    if (hFind != INVALID_HANDLE_VALUE)
+    {
+        do
+        {
+            entries.push_back(findFileData.cFileName);
+        } while (FindNextFile(hFind, &findFileData) != 0);
+    }
+    FindClose(hFind);
+#else
+    DIR *dir = opendir(path);
+    clearbank();
+
+    if (dir)
+    {
+        struct dirent *fn;
+
+        while ((fn = readdir(dir))) {
+            entries.push_back(fn->d_name);
+        }
+    }
+    closedir(dir);
+#endif
+
+    return entries;
 }
 
 float interpolate(const float *data, size_t len, float pos)

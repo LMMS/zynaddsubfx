@@ -24,6 +24,7 @@
 #define UTIL_H
 
 #include <string>
+#include <vector>
 #include <sstream>
 #include <stdint.h>
 #include "Config.h"
@@ -101,6 +102,8 @@ inline void sprng(prng_t p)
     prng_state = p;
 }
 
+
+
 /*
  * The random generator (0.0f..1.0f)
  */
@@ -114,5 +117,8 @@ float interpolate(const float *data, size_t len, float pos);
 
 //Linear circular interpolation
 float cinterpolate(const float *data, size_t len, float pos);
+
+
+std::vector<std::string> GetDirectory(const char* path);
 
 #endif

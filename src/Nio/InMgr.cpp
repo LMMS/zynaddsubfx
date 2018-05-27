@@ -44,7 +44,7 @@ InMgr::InMgr()
     :queue(100), master(Master::getInstance())
 {
     current = NULL;
-    work.init(PTHREAD_PROCESS_PRIVATE, 0);
+    work.init(0, 0);
 }
 
 InMgr::~InMgr()
