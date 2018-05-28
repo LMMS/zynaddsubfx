@@ -76,6 +76,7 @@ void NulEngine::setAudioEn(bool nval)
 {
     if(nval) {
         if(!getAudioEn()) {
+            audioEnable = true;
             thread = std::thread(&NulEngine::AudioThread, this);
         }
     }

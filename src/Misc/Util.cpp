@@ -221,8 +221,9 @@ std::vector<std::string> GetDirectory(const char* path)
     std::vector<std::string> entries;
 
 #ifdef WIN32
+    std::string glob = std::string(path) + "\\*";
     WIN32_FIND_DATA findFileData;
-    HANDLE hFind = FindFirstFile(path, &findFileData);
+    HANDLE hFind = FindFirstFile(glob.c_str(), &findFileData);
     if (hFind != INVALID_HANDLE_VALUE)
     {
         do

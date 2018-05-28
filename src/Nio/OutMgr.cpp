@@ -66,7 +66,7 @@ const Stereo<float *> OutMgr::tick(unsigned int frameSize)
         }
         master.mutex.lock();
         master.AudioOut(outl, outr);
-        master.mutex.lock();
+        master.mutex.unlock();
         addSmps(outl, outr);
         i++;
     }
