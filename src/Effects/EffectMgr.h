@@ -22,7 +22,7 @@
 #ifndef EFFECTMGR_H
 #define EFFECTMGR_H
 
-#include <pthread.h>
+#include <mutex>
 
 #include "Alienwah.h"
 #include "Phaser.h"
@@ -43,7 +43,7 @@ class XMLwrapper;
 class EffectMgr:public Presets
 {
     public:
-        EffectMgr(const bool insertion_, pthread_mutex_t *mutex_);
+        EffectMgr(const bool insertion_, std::mutex *mutex_);
         ~EffectMgr();
 
         void add2XML(XMLwrapper *xml);
@@ -79,7 +79,7 @@ class EffectMgr:public Presets
     private:
         int     nefx;
         Effect *efx;
-        pthread_mutex_t *mutex;
+        std::mutex *mutex;
         bool dryonly;
 };
 

@@ -26,9 +26,10 @@
 using namespace std;
 
 WavEngine::WavEngine()
-    :AudioOut(), file(NULL), buffer(synth->samplerate * 4), pThread(NULL)
+    :AudioOut(), file(NULL), buffer(synth->samplerate * 4), audioEnable(false)
 {
-    work.init(PTHREAD_PROCESS_PRIVATE, 0);
+#
+    work.init(0, 0);
 }
 
 WavEngine::~WavEngine()
@@ -44,36 +45,27 @@ bool WavEngine::openAudio()
 
 bool WavEngine::Start()
 {
-    if(pThread)
+    if(thread.joinable())
         return true;
-    pThread = new pthread_t;
 
-    pthread_attr_t attr;
-    pthread_attr_init(&attr);
-    pthread_attr_setdetachstate(&attr, PTHREAD_CREATE_JOINABLE);
-    pthread_create(pThread, &attr, _AudioThread, this);
-
+    thread = std::thread(&WavEngine::AudioThread, this);
     return true;
 }
 
 void WavEngine::Stop()
 {
-    if(!pThread)
+    if(!thread.joinable())
         return;
 
-    pthread_t *tmp = pThread;
-    pThread = NULL;
-
+    audioEnable = true;
     work.post();
-    pthread_join(*tmp, NULL);
-    delete pThread;
+    thread.join();
 }
 
 void WavEngine::push(Stereo<float *> smps, size_t len)
 {
-    if(!pThread)
+    if(!audioEnable)
         return;
-
 
     //copy the input [overflow when needed]
     for(size_t i = 0; i < len; ++i) {
@@ -112,7 +104,7 @@ void *WavEngine::AudioThread()
 {
     short *recordbuf_16bit = new short[2 * synth->buffersize];
 
-    while(!work.wait() && pThread) {
+    while(!work.wait() && audioEnable) {
         for(int i = 0; i < synth->buffersize; ++i) {
             float left = 0.0f, right = 0.0f;
             buffer.pop(left);

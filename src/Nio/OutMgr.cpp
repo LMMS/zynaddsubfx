@@ -26,7 +26,6 @@ OutMgr::OutMgr()
 {
     currentOut = NULL;
     stales     = 0;
-    master     = Master::getInstance();
 
     //init samples
     outr = new float[synth->buffersize];
@@ -61,13 +60,13 @@ const Stereo<float *> OutMgr::tick(unsigned int frameSize)
     int i=0;
     while(frameSize > storedSmps()) {
         if(!midi.empty()) {
-            pthread_mutex_lock(&(master.mutex));
+            master.mutex.lock();
             midi.flush(i*synth->buffersize, (i+1)*synth->buffersize);
-            pthread_mutex_unlock(&(master.mutex));
+            master.mutex.unlock();
         }
-        pthread_mutex_lock(&(master.mutex));
+        master.mutex.lock();
         master.AudioOut(outl, outr);
-        pthread_mutex_unlock(&(master.mutex));
+        master.mutex.unlock();
         addSmps(outl, outr);
         i++;
     }

@@ -22,6 +22,7 @@
 
 #include <cmath>
 #include <cstdio>
+#include <vector>
 #include "../Misc/Util.h"
 #include "FormantFilter.h"
 #include "AnalogFilter.h"
@@ -204,16 +205,16 @@ void FormantFilter::setfreq_and_q(float frequency, float q_)
 
 void FormantFilter::filterout(float *smp)
 {
-    float inbuffer[buffersize];
+    std::vector<float> inbuffer(buffersize);
 
-    memcpy(inbuffer, smp, bufferbytes);
+    memcpy(inbuffer.data(), smp, bufferbytes);
     memset(smp, 0, bufferbytes);
 
     for(int j = 0; j < numformants; ++j) {
-        float tmpbuf[buffersize];
+        std::vector<float> tmpbuf(buffersize);
         for(int i = 0; i < buffersize; ++i)
             tmpbuf[i] = inbuffer[i] * outgain;
-        formant[j]->filterout(tmpbuf);
+        formant[j]->filterout(tmpbuf.data());
 
         if(ABOVE_AMPLITUDE_THRESHOLD(oldformantamp[j], currentformants[j].amp))
             for(int i = 0; i < buffersize; ++i)

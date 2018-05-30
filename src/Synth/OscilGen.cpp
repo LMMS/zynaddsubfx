@@ -23,9 +23,12 @@
 #include "OscilGen.h"
 #include "../Misc/WaveShapeSmps.h"
 
+#ifdef _MSC_VER
+#define _USE_MATH_DEFINES 
+#endif
+#include <math.h>
 #include <cassert>
 #include <stdlib.h>
-#include <math.h>
 #include <stdio.h>
 
 
@@ -202,12 +205,12 @@ void OscilGen::defaults()
 void OscilGen::convert2sine()
 {
     float  mag[MAX_AD_HARMONICS], phase[MAX_AD_HARMONICS];
-    float  oscil[synth->oscilsize];
+    std::vector<float> oscil(synth->oscilsize);
     fft_t *freqs = new fft_t[synth->oscilsize / 2];
 
-    get(oscil, -1.0f);
+    get(oscil.data(), -1.0f);
     FFTwrapper *fft = new FFTwrapper(synth->oscilsize);
-    fft->smps2freqs(oscil, freqs);
+    fft->smps2freqs(oscil.data(), freqs);
     delete (fft);
 
     normalize(freqs);

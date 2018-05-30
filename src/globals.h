@@ -184,7 +184,7 @@ enum LegatoMsg {
 };
 
 //is like i=(int)(floor(f))
-#ifdef ASM_F2I_YES
+#if defined(ASM_F2I_YES) && !defined(_MSC_VER)
 #define F2I(f, \
             i) __asm__ __volatile__ ("fistpl %0" : "=m" (i) : "t" (f \
                                                                    - \

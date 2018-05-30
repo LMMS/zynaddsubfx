@@ -24,7 +24,6 @@
 #include <cctype>
 #include <stdlib.h>
 #include <string.h>
-#include <dirent.h>
 #include <sys/stat.h>
 
 #include "PresetsStore.h"
@@ -102,14 +101,11 @@ void PresetsStore::rescanforpresets(const string &type)
 
         //open directory
         string dirname = config.cfg.presetsDirList[i];
-        DIR   *dir     = opendir(dirname.c_str());
-        if(dir == NULL)
+        std::vector<std::string> files = GetDirectory(dirname.c_str());
+        if(files.empty() == NULL)
             continue;
-        struct dirent *fn;
-
         //check all files in directory
-        while((fn = readdir(dir))) {
-            string filename = fn->d_name;
+        for(const std::string& filename : files){
             if(filename.find(ftype) == string::npos)
                 continue;
 
@@ -129,8 +125,6 @@ void PresetsStore::rescanforpresets(const string &type)
             //put on list
             presets.push_back(presetstruct(location, name));
         }
-
-        closedir(dir);
     }
 
     //sort the presets

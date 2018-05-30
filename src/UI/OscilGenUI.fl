@@ -34,6 +34,7 @@ decl {\#include <stdio.h>} {}
 decl {\#include <stdlib.h>} {} 
 
 decl {\#include <string.h>} {} 
+decl {\#include <vector>} {} 
 
 decl {\#include "WidgetPDial.h"} {public
 } 
@@ -74,10 +75,10 @@ float x;
 float* spc=new float[n];
 for (i=0;i<n;i++) spc[i]=0.0;
 
-pthread_mutex_lock(&master->mutex);
+master->mutex.lock();
 if (oscbase==0) oscil->getspectrum(n,spc,0);
     else oscil->getspectrum(n,spc,1);
-pthread_mutex_unlock(&master->mutex);
+master->mutex.unlock();
 
 //normalize
 float max=0;
@@ -186,11 +187,11 @@ master=master_;} {}
   Function {draw()} {open
   } {
     code {int ox=x(),oy=y(),lx=w(),ly=h()-1,i;
-float smps[synth->oscilsize];
-pthread_mutex_lock(&master->mutex);
-if (oscbase==0) oscil->get(smps,-1.0);
-    else oscil->getcurrentbasefunction(smps);
-pthread_mutex_unlock(&master->mutex);
+std::vector<float> smps(synth->oscilsize);
+master->mutex.lock();
+if (oscbase==0) oscil->get(smps.data(),-1.0);
+    else oscil->getcurrentbasefunction(smps.data());
+master->mutex.unlock();
 
 if (damage()!=1){
  fl_color( fl_color_average( FL_BLACK, FL_BACKGROUND_COLOR, 0.5 ));
@@ -262,14 +263,14 @@ if (Fl::event_button3()) o->value(x);
 if (x==64) o->selection_color(0);
     else o->selection_color(222);
 
-pthread_mutex_lock(&master->mutex);
+master->mutex.lock();
  oscil->Phmag[n]=x;
  if (x==64) {
     oscil->Phphase[n]=64;
     phase->value(64);
  };
  oscil->prepare();
-pthread_mutex_unlock(&master->mutex);
+master->mutex.unlock();
 
 display->redraw();
 oldosc->redraw();
@@ -288,10 +289,10 @@ if (cbwidget!=NULL) {
 if (Fl::event_button3()) o->value(x);
    else x=(int)o->value();
 
-pthread_mutex_lock(&master->mutex);
+master->mutex.lock();
  oscil->Phphase[n]=x;
  oscil->prepare();
-pthread_mutex_unlock(&master->mutex);
+master->mutex.unlock();
 
 display->redraw();
 oldosc->redraw();
@@ -644,13 +645,13 @@ if (autoclearbutton->value()){
    sabutton->do_callback();
 };
 
-pthread_mutex_lock(&master->mutex);
+master->mutex.lock();
  for (int i=0;i<MAX_AD_HARMONICS;i++){
    if (oscil->Phmag[i]==64) h[i]->mag->selection_color(0);
       else h[i]->mag->selection_color(222);
  };
  oscil->prepare();
-pthread_mutex_unlock(&master->mutex);
+master->mutex.unlock();
 
 basefuncdisplaygroup->redraw();
 redrawoscil();}
@@ -681,9 +682,9 @@ for (int i=0;i<MAX_AD_HARMONICS;i++){
 
 //harmonics->redraw();
 
-pthread_mutex_lock(&master->mutex);
+master->mutex.lock();
  oscil->prepare();
-pthread_mutex_unlock(&master->mutex);
+master->mutex.unlock();
 
 redrawoscil();}
         xywh {670 505 55 15} box THIN_UP_BOX labelfont 1 labelsize 11
@@ -1037,9 +1038,9 @@ redrawoscil();}
         label Sine
         callback {if (!fl_choice("Convert to SINE?","No","Yes",NULL)) return;
 
-pthread_mutex_lock(&master->mutex);
+master->mutex.lock();
  oscil->convert2sine();
-pthread_mutex_unlock(&master->mutex);
+master->mutex.unlock();
 
 redrawoscil();
 refresh();}
@@ -1125,9 +1126,9 @@ adhrtype->value(oscil->Padaptiveharmonicspar);
 
 for (int i=0;i<MAX_AD_HARMONICS;i++) h[i]->refresh();
 
-pthread_mutex_lock(&master->mutex);
+master->mutex.lock();
  oscil->prepare();
-pthread_mutex_unlock(&master->mutex);
+master->mutex.unlock();
 
 basefuncdisplaygroup->redraw();
 redrawoscil();} {}

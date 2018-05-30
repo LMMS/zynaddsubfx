@@ -25,6 +25,7 @@
 #include "../DSP/AnalogFilter.h"
 #include "../DSP/Unison.h"
 #include <cmath>
+#include <vector>
 
 Reverb::Reverb(bool insertion_, float *efxoutl_, float *efxoutr_, unsigned int srate, int bufsize)
     :Effect(insertion_, efxoutl_, efxoutr_, NULL, 0, srate, bufsize),
@@ -144,7 +145,7 @@ void Reverb::out(const Stereo<float *> &smp)
     if(!Pvolume && insertion)
         return;
 
-    float inputbuf[buffersize];
+    std::vector<float> inputbuf(buffersize);
     for(int i = 0; i < buffersize; ++i)
         inputbuf[i] = (smp.l[i] + smp.r[i]) / 2.0f;
 
@@ -160,15 +161,15 @@ void Reverb::out(const Stereo<float *> &smp)
         }
 
     if(bandwidth)
-        bandwidth->process(buffersize, inputbuf);
+        bandwidth->process(buffersize, inputbuf.data());
 
     if(lpf)
-        lpf->filterout(inputbuf);
+        lpf->filterout(inputbuf.data());
     if(hpf)
-        hpf->filterout(inputbuf);
+        hpf->filterout(inputbuf.data());
 
-    processmono(0, efxoutl, inputbuf); //left
-    processmono(1, efxoutr, inputbuf); //right
+    processmono(0, efxoutl, inputbuf.data()); //left
+    processmono(1, efxoutr, inputbuf.data()); //right
 
     float lvol = rs / REV_COMBS * pangainL;
     float rvol = rs / REV_COMBS * pangainR;

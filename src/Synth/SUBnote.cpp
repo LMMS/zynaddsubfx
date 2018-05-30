@@ -19,7 +19,9 @@
   Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA
 
 */
-
+#ifdef _MSC_VER
+#define _USE_MATH_DEFINES
+#endif
 #include <cmath>
 #include <cstdlib>
 #include <cstdio>
@@ -505,16 +507,16 @@ int SUBnote::noteout(float *outl, float *outr)
     if(NoteEnabled == OFF)
         return 0;
 
-    float tmprnd[synth->buffersize];
-    float tmpsmp[synth->buffersize];
+    std::vector<float> tmprnd(synth->buffersize);
+    std::vector<float> tmpsmp(synth->buffersize);
     //left channel
     for(int i = 0; i < synth->buffersize; ++i)
         tmprnd[i] = RND * 2.0f - 1.0f;
     for(int n = 0; n < numharmonics; ++n) {
         float rolloff = overtone_rolloff[n];
-        memcpy(tmpsmp, tmprnd, synth->bufferbytes);
+        memcpy(tmpsmp.data(), tmprnd.data(), synth->bufferbytes);
         for(int nph = 0; nph < numstages; ++nph)
-            filter(lfilter[nph + n * numstages], tmpsmp);
+            filter(lfilter[nph + n * numstages], tmpsmp.data());
         for(int i = 0; i < synth->buffersize; ++i)
             outl[i] += tmpsmp[i] * rolloff;
     }
@@ -528,9 +530,9 @@ int SUBnote::noteout(float *outl, float *outr)
             tmprnd[i] = RND * 2.0f - 1.0f;
         for(int n = 0; n < numharmonics; ++n) {
             float rolloff = overtone_rolloff[n];
-            memcpy(tmpsmp, tmprnd, synth->bufferbytes);
+            memcpy(tmpsmp.data(), tmprnd.data(), synth->bufferbytes);
             for(int nph = 0; nph < numstages; ++nph)
-                filter(rfilter[nph + n * numstages], tmpsmp);
+                filter(rfilter[nph + n * numstages], tmpsmp.data());
             for(int i = 0; i < synth->buffersize; ++i)
                 outr[i] += tmpsmp[i] * rolloff;
         }
