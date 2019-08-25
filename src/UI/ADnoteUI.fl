@@ -210,7 +210,7 @@ class ADvoiceUI {open : {public Fl_Group}
 if (o->value()==0) voiceFMfreqenvgroup->deactivate();
 else voiceFMfreqenvgroup->activate();
 o->redraw();}
-                tooltip {Forced Relase} xywh {545 305 50 10} down_box DOWN_BOX labelfont 1 labelsize 11
+                tooltip {Forced Release} xywh {545 305 50 10} down_box DOWN_BOX labelfont 1 labelsize 11
                 code0 {o->value(pars->VoicePar[nvoice].PFMFreqEnvelopeEnabled);}
               }
               Fl_Counter {} {
@@ -287,7 +287,7 @@ fmdetunevalueoutput->do_callback();} open
 if (o->value()==0) voiceFMampenvgroup->deactivate();
 else voiceFMampenvgroup->activate();
 o->redraw();}
-                tooltip {Forced Relase} xywh {545 150 50 10} down_box DOWN_BOX labelfont 1 labelsize 11
+                tooltip {Forced Release} xywh {545 150 50 10} down_box DOWN_BOX labelfont 1 labelsize 11
                 code0 {o->value(pars->VoicePar[nvoice].PFMAmpEnvelopeEnabled);}
               }
               Fl_Value_Slider {} {
@@ -415,7 +415,7 @@ o->redraw();}
 if (o->value()==0) voicefreqenvgroup->deactivate();
 else voicefreqenvgroup->activate();
 o->redraw();}
-              tooltip {Forced Relase} xywh {15 310 50 10} down_box DOWN_BOX labelfont 1 labelsize 11
+              tooltip {Forced Release} xywh {15 310 50 10} down_box DOWN_BOX labelfont 1 labelsize 11
               code0 {o->value(pars->VoicePar[nvoice].PFreqEnvelopeEnabled);}
             }
             Fl_Group voicefreqlfogroup {
@@ -431,7 +431,7 @@ o->redraw();}
 if (o->value()==0) voicefreqlfogroup->deactivate();
 else voicefreqlfogroup->activate();
 o->redraw();}
-              tooltip {Forced Relase} xywh {225 311 55 10} down_box DOWN_BOX labelfont 1 labelsize 11
+              tooltip {Forced Release} xywh {225 311 55 10} down_box DOWN_BOX labelfont 1 labelsize 11
               code0 {o->value(pars->VoicePar[nvoice].PFreqLfoEnabled);}
             }
             Fl_Counter {} {
@@ -481,7 +481,7 @@ if (x==0) fixedfreqetdial->deactivate();
             Fl_Dial fixedfreqetdial {
               label {Eq.T.}
               callback {pars->VoicePar[nvoice].PfixedfreqET=(int) o->value();}
-              tooltip {How the frequency varies acording to the keyboard (leftmost for fixed frequency)} xywh {405 270 15 15} box ROUND_UP_BOX labelsize 10 align 8 maximum 127 step 1
+              tooltip {How the frequency varies according to the keyboard (leftmost for fixed frequency)} xywh {405 270 15 15} box ROUND_UP_BOX labelsize 10 align 8 maximum 127 step 1
               code0 {o->value(pars->VoicePar[nvoice].PfixedfreqET);}
               code1 {if (pars->VoicePar[nvoice].Pfixedfreq==0) o->deactivate();}
               class WidgetPDial
@@ -644,7 +644,7 @@ unisonspreadoutput->do_callback();}
 if (o->value()==0) voiceampenvgroup->deactivate();
 else voiceampenvgroup->activate();
 o->redraw();}
-            tooltip {Forced Relase} xywh {15 110 50 10} down_box DOWN_BOX labelfont 1 labelsize 11
+            tooltip {Forced Release} xywh {15 110 50 10} down_box DOWN_BOX labelfont 1 labelsize 11
             code0 {o->value(pars->VoicePar[nvoice].PAmpEnvelopeEnabled);}
           }
           Fl_Group voiceamplfogroup {
@@ -660,7 +660,7 @@ o->redraw();}
 if (o->value()==0) voiceamplfogroup->deactivate();
 else voiceamplfogroup->activate();
 o->redraw();}
-            tooltip {Forced Relase} xywh {15 185 55 10} down_box DOWN_BOX labelfont 1 labelsize 11
+            tooltip {Forced Release} xywh {15 185 55 10} down_box DOWN_BOX labelfont 1 labelsize 11
             code0 {o->value(pars->VoicePar[nvoice].PAmpLfoEnabled);}
           }
           Fl_Check_Button {} {
@@ -694,7 +694,7 @@ o->redraw();}
 if (o->value()==0) voicefilterenvgroup->deactivate();
 else voicefilterenvgroup->activate();
 o->redraw();}
-            tooltip {Forced Relase} xywh {255 119 55 10} down_box DOWN_BOX labelfont 1 labelsize 11
+            tooltip {Forced Release} xywh {255 119 55 10} down_box DOWN_BOX labelfont 1 labelsize 11
             code0 {o->value(pars->VoicePar[nvoice].PFilterEnvelopeEnabled);}
           }
           Fl_Group voicefilterlfogroup {
@@ -710,7 +710,7 @@ o->redraw();}
 if (o->value()==0) voicefilterlfogroup->deactivate();
 else voicefilterlfogroup->activate();
 o->redraw();}
-            tooltip {Forced Relase} xywh {255 196 55 10} down_box DOWN_BOX labelfont 1 labelsize 11
+            tooltip {Forced Release} xywh {255 196 55 10} down_box DOWN_BOX labelfont 1 labelsize 11
             code0 {o->value(pars->VoicePar[nvoice].PFilterLfoEnabled);}
           }
         }

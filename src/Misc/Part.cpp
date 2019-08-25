@@ -617,14 +617,14 @@ void Part::NoteOn(unsigned char note,
             }
     }
 
-    //this only relase the keys if there is maximum number of keys allowed
+    //this only releases the keys if there is maximum number of keys allowed
     setkeylimit(Pkeylimit);
 }
 
 /*
  * Note Off Messages
  */
-void Part::NoteOff(unsigned char note) //relase the key
+void Part::NoteOff(unsigned char note) //release the key
 {
     int i;
 
@@ -790,7 +790,7 @@ void Part::SetController(unsigned int type, int par)
     }
 }
 /*
- * Relase the sustained keys
+ * Release the sustained keys
  */
 
 void Part::RelaseSustainedKeys()
@@ -806,7 +806,7 @@ void Part::RelaseSustainedKeys()
 }
 
 /*
- * Relase all keys
+ * Release all keys
  */
 
 void Part::RelaseAllKeys()

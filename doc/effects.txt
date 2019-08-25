@@ -149,7 +149,7 @@ changed at all.
 the delay also depends on the current pitch.
 * After the correct element of the sound buffer is found using the LFO, the
 *Fb* knob lets you set how loud it shall be played. This is mostly redundant to
-the *D/W* knob, but we have not applied panning and substraction yet. 
+the *D/W* knob, but we have not applied panning and subtraction yet. 
 * Next, the singal can be negated. If the *Substract* Checkbox is activated,
 the amplitude is multiplied by -1.
 * Finally, *Pan* lets you apply panning.
