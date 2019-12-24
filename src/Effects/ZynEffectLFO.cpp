@@ -1,7 +1,7 @@
 /*
   ZynAddSubFX - a software synthesizer
 
-  EffectLFO.cpp - Stereo LFO used by some effects
+  ZynEffectLFO.cpp - Stereo LFO used by some effects
   Copyright (C) 2002-2005 Nasca Octavian Paul
   Author: Nasca Octavian Paul
 
@@ -20,12 +20,12 @@
 
 */
 
-#include "EffectLFO.h"
+#include "ZynEffectLFO.h"
 #include "../Misc/Util.h"
 
 #include <cmath>
 
-EffectLFO::EffectLFO(float srate_f, float bufsize_f)
+ZynEffectLFO::ZynEffectLFO(float srate_f, float bufsize_f)
     :Pfreq(40),
       Prandomness(0),
       PLFOtype(0),
@@ -43,10 +43,10 @@ EffectLFO::EffectLFO(float srate_f, float bufsize_f)
     updateparams();
 }
 
-EffectLFO::~EffectLFO() {}
+ZynEffectLFO::~ZynEffectLFO() {}
 
 //Update the changed parameters
-void EffectLFO::updateparams(void)
+void ZynEffectLFO::updateparams(void)
 {
     float lfofreq = (powf(2.0f, Pfreq / 127.0f * 10.0f) - 1.0f) * 0.03f;
     incx = fabsf(lfofreq) * buffersize_f / samplerate_f;
@@ -64,11 +64,11 @@ void EffectLFO::updateparams(void)
 
 
 //Compute the shape of the LFO
-float EffectLFO::getlfoshape(float x)
+float ZynEffectLFO::getlfoshape(float x)
 {
     float out;
     switch(lfotype) {
-        case 1: //EffectLFO_TRIANGLE
+        case 1: //ZynEffectLFO_TRIANGLE
             if((x > 0.0f) && (x < 0.25f))
                 out = 4.0f * x;
             else
@@ -79,13 +79,13 @@ float EffectLFO::getlfoshape(float x)
             break;
         //when adding more, ensure ::updateparams() gets updated
         default:
-            out = cosf(x * 2.0f * PI); //EffectLFO_SINE
+            out = cosf(x * 2.0f * PI); //ZynEffectLFO_SINE
     }
     return out;
 }
 
 //LFO output
-void EffectLFO::effectlfoout(float *outl, float *outr)
+void ZynEffectLFO::effectlfoout(float *outl, float *outr)
 {
     float out;
 

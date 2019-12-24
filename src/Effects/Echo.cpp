@@ -28,7 +28,7 @@
 #define MAX_DELAY 2
 
 Echo::Echo(bool insertion_, float *efxoutl_, float *efxoutr_, unsigned int srate, int bufsize)
-    :Effect(insertion_, efxoutl_, efxoutr_, NULL, 0, srate, bufsize),
+    :ZynEffect(insertion_, efxoutl_, efxoutr_, NULL, 0, srate, bufsize),
       samplerate(srate),
       Pvolume(50),
       Pdelay(60),
@@ -82,7 +82,7 @@ void Echo::initdelays(void)
     ndelta.r = max(1, (int) (dr * samplerate));
 }
 
-//Effect output
+//ZynEffect output
 void Echo::out(const Stereo<float *> &input)
 {
     for(int i = 0; i < buffersize; ++i) {

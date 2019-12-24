@@ -22,14 +22,14 @@
 
 #ifndef CHORUS_H
 #define CHORUS_H
-#include "Effect.h"
-#include "EffectLFO.h"
+#include "ZynEffect.h"
+#include "ZynEffectLFO.h"
 #include "../Misc/Stereo.h"
 
 #define MAX_CHORUS_DELAY 250.0f //ms
 
 /**Chorus and Flange effects*/
-class Chorus:public Effect
+class Chorus:public ZynEffect
 {
     public:
         Chorus(bool insertion_, float *efxoutl_, float *efxoutr_, unsigned int srate, int bufsize);
@@ -85,7 +85,7 @@ class Chorus:public Effect
         unsigned char Pfb;         //feedback
         unsigned char Pflangemode; //how the LFO is scaled, to result chorus or flange
         unsigned char Poutsub;     //if I wish to substract the output instead of the adding it
-        EffectLFO     lfo;         //lfo-ul chorus
+        ZynEffectLFO     lfo;         //lfo-ul chorus
 
 
         //Parameter Controls

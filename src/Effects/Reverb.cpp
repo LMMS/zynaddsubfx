@@ -27,7 +27,7 @@
 #include <cmath>
 
 Reverb::Reverb(bool insertion_, float *efxoutl_, float *efxoutr_, unsigned int srate, int bufsize)
-    :Effect(insertion_, efxoutl_, efxoutr_, NULL, 0, srate, bufsize),
+    :ZynEffect(insertion_, efxoutl_, efxoutr_, NULL, 0, srate, bufsize),
       // defaults
       Pvolume(48),
       Ptime(64),
@@ -138,7 +138,7 @@ void Reverb::processmono(int ch, float *output, float *inputbuf)
     }
 }
 
-//Effect output
+//ZynEffect output
 void Reverb::out(const Stereo<float *> &smp)
 {
     if(!Pvolume && insertion)

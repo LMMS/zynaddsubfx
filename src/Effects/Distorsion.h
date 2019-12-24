@@ -1,7 +1,7 @@
 /*
   ZynAddSubFX - a software synthesizer
 
-  Distorsion.h - Distorsion Effect
+  Distorsion.h - Distorsion ZynEffect
   Copyright (C) 2002-2005 Nasca Octavian Paul
   Author: Nasca Octavian Paul
 
@@ -23,10 +23,10 @@
 #ifndef DISTORSION_H
 #define DISTORSION_H
 
-#include "Effect.h"
+#include "ZynEffect.h"
 
-/**Distortion Effect*/
-class Distorsion:public Effect
+/**Distortion ZynEffect*/
+class Distorsion:public ZynEffect
 {
     public:
         Distorsion(bool insertion, float *efxoutl_, float *efxoutr_, unsigned int srate, int bufsize);

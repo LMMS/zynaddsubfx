@@ -1,7 +1,7 @@
 /*
   ZynAddSubFX - a software synthesizer
 
-  Effect.cpp - this class is inherited by the all effects(Reverb, Echo, ..)
+  ZynEffect.cpp - this class is inherited by the all effects(Reverb, Echo, ..)
   Copyright (C) 2002-2005 Nasca Octavian Paul
   Copyright 2011, Alan Calvert
   Author: Nasca Octavian Paul
@@ -21,11 +21,11 @@
 
 */
 
-#include "Effect.h"
+#include "ZynEffect.h"
 #include "../Params/FilterParams.h"
 #include <cmath>
 
-Effect::Effect(bool insertion_, float *efxoutl_, float *efxoutr_,
+ZynEffect::ZynEffect(bool insertion_, float *efxoutl_, float *efxoutr_,
                FilterParams *filterpars_, unsigned char Ppreset_,
                unsigned int srate, int bufsize)
     :Ppreset(Ppreset_),
@@ -39,12 +39,12 @@ Effect::Effect(bool insertion_, float *efxoutl_, float *efxoutr_,
     alias();
 }
 
-void Effect::out(float *const smpsl, float *const smpsr)
+void ZynEffect::out(float *const smpsl, float *const smpsr)
 {
     out(Stereo<float *>(smpsl, smpsr));
 }
 
-void Effect::crossover(float &a, float &b, float crossover)
+void ZynEffect::crossover(float &a, float &b, float crossover)
 {
     float tmpa = a;
     float tmpb = b;
@@ -52,7 +52,7 @@ void Effect::crossover(float &a, float &b, float crossover)
     b = tmpb * (1.0f - crossover) + tmpa * crossover;
 }
 
-void Effect::setpanning(char Ppanning_)
+void ZynEffect::setpanning(char Ppanning_)
 {
     Ppanning = Ppanning_;
     float t = (Ppanning > 0) ? (float)(Ppanning - 1) / 126.0f : 0.0f;
@@ -60,7 +60,7 @@ void Effect::setpanning(char Ppanning_)
     pangainR = cosf((1.0f - t) * PI / 2.0f);
 }
 
-void Effect::setlrcross(char Plrcross_)
+void ZynEffect::setlrcross(char Plrcross_)
 {
     Plrcross = Plrcross_;
     lrcross  = (float)Plrcross / 127.0f;

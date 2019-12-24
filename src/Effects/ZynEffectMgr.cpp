@@ -1,7 +1,7 @@
 /*
   ZynAddSubFX - a software synthesizer
 
-  EffectMgr.cpp - Effect manager, an interface betwen the program and effects
+  ZynEffectMgr.cpp - ZynEffect manager, an interface betwen the program and effects
   Copyright (C) 2002-2005 Nasca Octavian Paul
   Author: Nasca Octavian Paul
 
@@ -20,8 +20,8 @@
 
 */
 
-#include "EffectMgr.h"
-#include "Effect.h"
+#include "ZynEffectMgr.h"
+#include "ZynEffect.h"
 #include "Reverb.h"
 #include "Echo.h"
 #include "Chorus.h"
@@ -34,7 +34,7 @@
 #include <iostream>
 using namespace std;
 
-EffectMgr::EffectMgr(const bool insertion_, pthread_mutex_t *mutex_)
+ZynEffectMgr::ZynEffectMgr(const bool insertion_, pthread_mutex_t *mutex_)
     :insertion(insertion_),
       efxoutl(new float[synth->buffersize]),
       efxoutr(new float[synth->buffersize]),
@@ -51,21 +51,21 @@ EffectMgr::EffectMgr(const bool insertion_, pthread_mutex_t *mutex_)
 }
 
 
-EffectMgr::~EffectMgr()
+ZynEffectMgr::~ZynEffectMgr()
 {
     delete efx;
     delete [] efxoutl;
     delete [] efxoutr;
 }
 
-void EffectMgr::defaults(void)
+void ZynEffectMgr::defaults(void)
 {
     changeeffect(0);
     setdryonly(false);
 }
 
 //Change the effect
-void EffectMgr::changeeffect(int _nefx)
+void ZynEffectMgr::changeeffect(int _nefx)
 {
     cleanup();
     if(nefx == _nefx)
@@ -110,13 +110,13 @@ void EffectMgr::changeeffect(int _nefx)
 }
 
 //Obtain the effect number
-int EffectMgr::geteffect(void)
+int ZynEffectMgr::geteffect(void)
 {
     return nefx;
 }
 
 // Cleanup the current effect
-void EffectMgr::cleanup(void)
+void ZynEffectMgr::cleanup(void)
 {
     if(efx)
         efx->cleanup();
@@ -124,7 +124,7 @@ void EffectMgr::cleanup(void)
 
 
 // Get the preset of the current effect
-unsigned char EffectMgr::getpreset(void)
+unsigned char ZynEffectMgr::getpreset(void)
 {
     if(efx)
         return efx->Ppreset;
@@ -133,14 +133,14 @@ unsigned char EffectMgr::getpreset(void)
 }
 
 // Change the preset of the current effect
-void EffectMgr::changepreset_nolock(unsigned char npreset)
+void ZynEffectMgr::changepreset_nolock(unsigned char npreset)
 {
     if(efx)
         efx->setpreset(npreset);
 }
 
 //Change the preset of the current effect(with thread locking)
-void EffectMgr::changepreset(unsigned char npreset)
+void ZynEffectMgr::changepreset(unsigned char npreset)
 {
     pthread_mutex_lock(mutex);
     changepreset_nolock(npreset);
@@ -149,7 +149,7 @@ void EffectMgr::changepreset(unsigned char npreset)
 
 
 //Change a parameter of the current effect
-void EffectMgr::seteffectpar_nolock(int npar, unsigned char value)
+void ZynEffectMgr::seteffectpar_nolock(int npar, unsigned char value)
 {
     if(!efx)
         return;
@@ -157,7 +157,7 @@ void EffectMgr::seteffectpar_nolock(int npar, unsigned char value)
 }
 
 // Change a parameter of the current effect (with thread locking)
-void EffectMgr::seteffectpar(int npar, unsigned char value)
+void ZynEffectMgr::seteffectpar(int npar, unsigned char value)
 {
     pthread_mutex_lock(mutex);
     seteffectpar_nolock(npar, value);
@@ -165,7 +165,7 @@ void EffectMgr::seteffectpar(int npar, unsigned char value)
 }
 
 //Get a parameter of the current effect
-unsigned char EffectMgr::geteffectpar(int npar)
+unsigned char ZynEffectMgr::geteffectpar(int npar)
 {
     if(!efx)
         return 0;
@@ -173,7 +173,7 @@ unsigned char EffectMgr::geteffectpar(int npar)
 }
 
 // Apply the effect
-void EffectMgr::out(float *smpsl, float *smpsr)
+void ZynEffectMgr::out(float *smpsl, float *smpsr)
 {
     if(!efx) {
         if(!insertion)
@@ -239,25 +239,25 @@ void EffectMgr::out(float *smpsl, float *smpsr)
 
 
 // Get the effect volume for the system effect
-float EffectMgr::sysefxgetvolume(void)
+float ZynEffectMgr::sysefxgetvolume(void)
 {
     return (!efx) ? 1.0f : efx->outvolume;
 }
 
 
 // Get the EQ response
-float EffectMgr::getEQfreqresponse(float freq)
+float ZynEffectMgr::getEQfreqresponse(float freq)
 {
     return (nefx == 7) ? efx->getfreqresponse(freq) : 0.0f;
 }
 
 
-void EffectMgr::setdryonly(bool value)
+void ZynEffectMgr::setdryonly(bool value)
 {
     dryonly = value;
 }
 
-void EffectMgr::add2XML(XMLwrapper *xml)
+void ZynEffectMgr::add2XML(XMLwrapper *xml)
 {
     xml->addpar("type", geteffect());
 
@@ -282,7 +282,7 @@ void EffectMgr::add2XML(XMLwrapper *xml)
     xml->endbranch();
 }
 
-void EffectMgr::getfromXML(XMLwrapper *xml)
+void ZynEffectMgr::getfromXML(XMLwrapper *xml)
 {
     changeeffect(xml->getpar127("type", geteffect()));
 

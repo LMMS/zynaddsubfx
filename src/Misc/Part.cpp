@@ -24,7 +24,7 @@
 #include "Microtonal.h"
 #include "Util.h"
 #include "XMLwrapper.h"
-#include "../Effects/EffectMgr.h"
+#include "../Effects/ZynEffectMgr.h"
 #include "../Params/ADnoteParameters.h"
 #include "../Params/SUBnoteParameters.h"
 #include "../Params/PADnoteParameters.h"
@@ -56,9 +56,9 @@ Part::Part(Microtonal *microtonal_, FFTwrapper *fft_, pthread_mutex_t *mutex_)
     kit[0].subpars = new SUBnoteParameters();
     kit[0].padpars = new PADnoteParameters(fft, mutex);
 
-    //Part's Insertion Effects init
+    //Part's Insertion ZynEffects init
     for(int nefx = 0; nefx < NUM_PART_EFX; ++nefx) {
-        partefx[nefx]    = new EffectMgr(1, mutex);
+        partefx[nefx]    = new ZynEffectMgr(1, mutex);
         Pefxbypass[nefx] = false;
     }
 

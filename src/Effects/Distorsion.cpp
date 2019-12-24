@@ -26,7 +26,7 @@
 #include <cmath>
 
 Distorsion::Distorsion(bool insertion_, float *efxoutl_, float *efxoutr_, unsigned int srate, int bufsize)
-    :Effect(insertion_, efxoutl_, efxoutr_, NULL, 0, srate, bufsize),
+    :ZynEffect(insertion_, efxoutl_, efxoutr_, NULL, 0, srate, bufsize),
       Pvolume(50),
       Pdrive(90),
       Plevel(64),
@@ -75,7 +75,7 @@ void Distorsion::applyfilters(float *efxoutl, float *efxoutr)
 }
 
 
-//Effect output
+//ZynEffect output
 void Distorsion::out(const Stereo<float *> &smp)
 {
     float inputvol = powf(5.0f, (Pdrive - 32.0f) / 127.0f);

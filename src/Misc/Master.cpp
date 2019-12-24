@@ -26,7 +26,7 @@
 #include "Part.h"
 
 #include "../Params/LFOParams.h"
-#include "../Effects/EffectMgr.h"
+#include "../Effects/ZynEffectMgr.h"
 #include "../DSP/FFTwrapper.h"
 
 #include <stdio.h>
@@ -68,13 +68,13 @@ Master::Master()
     for(int npart = 0; npart < NUM_MIDI_PARTS; ++npart)
         part[npart] = new Part(&microtonal, fft, &mutex);
 
-    //Insertion Effects init
+    //Insertion ZynEffects init
     for(int nefx = 0; nefx < NUM_INS_EFX; ++nefx)
-        insefx[nefx] = new EffectMgr(1, &mutex);
+        insefx[nefx] = new ZynEffectMgr(1, &mutex);
 
-    //System Effects init
+    //System ZynEffects init
     for(int nefx = 0; nefx < NUM_SYS_EFX; ++nefx)
-        sysefx[nefx] = new EffectMgr(0, &mutex);
+        sysefx[nefx] = new ZynEffectMgr(0, &mutex);
 
 
     defaults();
@@ -98,7 +98,7 @@ void Master::defaults()
         Pinsparts[nefx] = -1;
     }
 
-    //System Effects init
+    //System ZynEffects init
     for(int nefx = 0; nefx < NUM_SYS_EFX; ++nefx) {
         sysefx[nefx]->defaults();
         for(int npart = 0; npart < NUM_MIDI_PARTS; ++npart)
@@ -199,12 +199,12 @@ void Master::setController(char chan, int type, int par)
         if(ctl.getnrpn(&parhi, &parlo, &valhi, &vallo) == 0) //this is NRPN
             //fprintf(stderr,"rcv. NRPN: %d %d %d %d\n",parhi,parlo,valhi,vallo);
             switch(parhi) {
-                case 0x04: //System Effects
+                case 0x04: //System ZynEffects
                     if(parlo < NUM_SYS_EFX)
                         sysefx[parlo]->seteffectpar_nolock(valhi, vallo);
                     ;
                     break;
-                case 0x08: //Insertion Effects
+                case 0x08: //Insertion ZynEffects
                     if(parlo < NUM_INS_EFX)
                         insefx[parlo]->seteffectpar_nolock(valhi, vallo);
                     ;
@@ -400,7 +400,7 @@ void Master::AudioOut(float *outl, float *outr)
         memset(tmpmixl, 0, synth->bufferbytes);
         memset(tmpmixr, 0, synth->bufferbytes);
 
-        //Mix the channels according to the part settings about System Effect
+        //Mix the channels according to the part settings about System ZynEffect
         for(int npart = 0; npart < NUM_MIDI_PARTS; ++npart) {
             //skip if the part has no output to effect
             if(Psysefxvol[nefx][npart] == 0)
@@ -430,7 +430,7 @@ void Master::AudioOut(float *outl, float *outr)
 
         sysefx[nefx]->out(tmpmixl, tmpmixr);
 
-        //Add the System Effect to sound output
+        //Add the System ZynEffect to sound output
         const float outvol = sysefx[nefx]->sysefxgetvolume();
         for(int i = 0; i < synth->buffersize; ++i) {
             outl[i] += tmpmixl[i] * outvol;

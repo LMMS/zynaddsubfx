@@ -1,7 +1,7 @@
 /*
   ZynAddSubFX - a software synthesizer
 
-  Echo.h - Echo Effect
+  Echo.h - Echo ZynEffect
   Copyright (C) 2002-2005 Nasca Octavian Paul
   Author: Nasca Octavian Paul
 
@@ -23,11 +23,11 @@
 #ifndef ECHO_H
 #define ECHO_H
 
-#include "Effect.h"
+#include "ZynEffect.h"
 #include "../Misc/Stereo.h"
 
-/**Echo Effect*/
-class Echo:public Effect
+/**Echo ZynEffect*/
+class Echo:public ZynEffect
 {
     public:
         Echo(bool insertion_, float *efxoutl_, float *efxoutr_, unsigned int srate, int bufsize);

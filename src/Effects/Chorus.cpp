@@ -27,7 +27,7 @@
 using namespace std;
 
 Chorus::Chorus(bool insertion_, float *const efxoutl_, float *efxoutr_, unsigned int srate, int bufsize)
-    :Effect(insertion_, efxoutl_, efxoutr_, NULL, 0, srate, bufsize),
+    :ZynEffect(insertion_, efxoutl_, efxoutr_, NULL, 0, srate, bufsize),
       lfo(srate, bufsize),
       maxdelay((int)(MAX_CHORUS_DELAY / 1000.0f * samplerate_f)),
       delaySample(new float[maxdelay], new float[maxdelay])

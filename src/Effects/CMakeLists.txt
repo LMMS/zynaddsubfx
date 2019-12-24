@@ -4,9 +4,9 @@ set(zynaddsubfx_effect_SRCS
 	Effects/Distorsion.cpp
 	Effects/DynamicFilter.cpp
 	Effects/Echo.cpp
-	Effects/Effect.cpp
-	Effects/EffectLFO.cpp
-	Effects/EffectMgr.cpp
+	Effects/ZynEffect.cpp
+	Effects/ZynEffectLFO.cpp
+	Effects/ZynEffectMgr.cpp
 	Effects/EQ.cpp
 	Effects/Phaser.cpp
 	Effects/Reverb.cpp

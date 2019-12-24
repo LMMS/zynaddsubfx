@@ -1,7 +1,7 @@
 /*
   ZynAddSubFX - a software synthesizer
 
-  EQ.h - EQ Effect
+  EQ.h - EQ ZynEffect
   Copyright (C) 2002-2005 Nasca Octavian Paul
   Author: Nasca Octavian Paul
 
@@ -23,10 +23,10 @@
 #ifndef EQ_H
 #define EQ_H
 
-#include "Effect.h"
+#include "ZynEffect.h"
 
-/**EQ Effect*/
-class EQ:public Effect
+/**EQ ZynEffect*/
+class EQ:public ZynEffect
 {
     public:
         EQ(bool insertion_, float *efxoutl_, float *efxoutr_, unsigned int srate, int bufsize);

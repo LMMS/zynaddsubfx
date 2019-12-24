@@ -24,20 +24,20 @@
 #define ALIENWAH_H
 
 #include <complex>
-#include "Effect.h"
-#include "EffectLFO.h"
+#include "ZynEffect.h"
+#include "ZynEffectLFO.h"
 
 using namespace std;
 
 #define MAX_ALIENWAH_DELAY 100
 
-/**"AlienWah" Effect*/
-class Alienwah:public Effect
+/**"AlienWah" ZynEffect*/
+class Alienwah:public ZynEffect
 {
     public:
         /**
          * Constructor
-         * @param insertion_ true for insertion Effect
+         * @param insertion_ true for insertion ZynEffect
          * @param efxoutl_ Pointer to Alienwah's left channel output buffer
          * @param efxoutr_ Pointer to Alienwah's left channel output buffer
          * @return Initialized Alienwah
@@ -56,7 +56,7 @@ class Alienwah:public Effect
 
     private:
         //Alienwah Parameters
-        EffectLFO     lfo;      //lfo-ul Alienwah
+        ZynEffectLFO     lfo;      //lfo-ul Alienwah
         unsigned char Pvolume;
         unsigned char Pdepth;   //the depth of the Alienwah
         unsigned char Pfb;      //feedback

@@ -30,7 +30,7 @@ decl {\#include "FilterUI.h"} {public
 decl {\#include "../Misc/Util.h"} {public
 } 
 
-decl {\#include "../Effects/EffectMgr.h"} {public
+decl {\#include "../Effects/ZynEffectMgr.h"} {public
 } 
 
 decl {\#include "PresetsUI.h"} {public
@@ -45,7 +45,7 @@ class EQGraph {: {public Fl_Box}
     code {eff=NULL;
 maxdB=30;} {}
   }
-  Function {init(EffectMgr *eff_)} {} {
+  Function {init(ZynEffectMgr *eff_)} {} {
     code {eff=eff_;
 oldx=-1;
 khzval=-1;} {}
@@ -158,7 +158,7 @@ return(log(freq/20.0)/log(1000.0));} {}
   decl {int oldx;} {}
   decl {float khzval;} {public
   }
-  decl {EffectMgr *eff;} {}
+  decl {ZynEffectMgr *eff;} {}
   decl {int maxdB;} {}
 } 
 
@@ -1281,7 +1281,7 @@ refresh(eff);}
       }
     }
   }
-  Function {init(EffectMgr *eff_)} {} {
+  Function {init(ZynEffectMgr *eff_)} {} {
     code {eff=eff_;
 
 make_null_window();
@@ -1309,7 +1309,7 @@ effdynamicfilterwindow->position(px,py);
 
 refresh(eff);} {}
   }
-  Function {refresh(EffectMgr *eff_)} {open
+  Function {refresh(ZynEffectMgr *eff_)} {open
   } {
     code {eff=eff_;
 this->hide();
@@ -1467,7 +1467,7 @@ this->show();} {}
   } {
     code {refresh(eff);} {}
   }
-  decl {EffectMgr *eff;} {}
+  decl {ZynEffectMgr *eff;} {}
   decl {int eqband;} {}
 } 
 
@@ -2215,7 +2215,7 @@ refresh(eff);}
       }
     }
   }
-  Function {init(EffectMgr *eff_)} {open
+  Function {init(ZynEffectMgr *eff_)} {open
   } {
     code {eff=eff_;
 
@@ -2244,7 +2244,7 @@ effdynamicfilterwindow->position(px,py);
 
 refresh(eff);} {}
   }
-  Function {refresh(EffectMgr *eff_)} {} {
+  Function {refresh(ZynEffectMgr *eff_)} {} {
     code {eff=eff_;
 this->hide();
 
@@ -2346,6 +2346,6 @@ this->show();} {}
   Function {refresh()} {} {
     code {refresh(eff);} {}
   }
-  decl {EffectMgr *eff;} {}
+  decl {ZynEffectMgr *eff;} {}
   decl {int eqband;} {}
 } 

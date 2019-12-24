@@ -24,7 +24,7 @@
 #include "Alienwah.h"
 
 Alienwah::Alienwah(bool insertion_, float *efxoutl_, float *efxoutr_, unsigned int srate, int bufsize)
-    :Effect(insertion_, efxoutl_, efxoutr_, NULL, 0, srate, bufsize),
+    :ZynEffect(insertion_, efxoutl_, efxoutr_, NULL, 0, srate, bufsize),
       lfo(srate, bufsize),
       oldl(NULL),
       oldr(NULL)

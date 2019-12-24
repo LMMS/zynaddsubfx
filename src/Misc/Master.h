@@ -133,8 +133,8 @@ class Master
         void setPsysefxsend(int Pefxfrom, int Pefxto, char Pvol);
 
         //effects
-        class EffectMgr * sysefx[NUM_SYS_EFX]; //system
-        class EffectMgr * insefx[NUM_INS_EFX]; //insertion
+        class ZynEffectMgr * sysefx[NUM_SYS_EFX]; //system
+        class ZynEffectMgr * insefx[NUM_INS_EFX]; //insertion
 //      void swapcopyeffects(int what,int type,int neff1,int neff2);
 
         //HDD recorder

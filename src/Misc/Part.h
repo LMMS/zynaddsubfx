@@ -32,7 +32,7 @@
 #include <pthread.h>
 #include <list> // For the monomemnotes list.
 
-class EffectMgr;
+class ZynEffectMgr;
 class ADnoteParameters;
 class SUBnoteParameters;
 class PADnoteParameters;
@@ -147,7 +147,7 @@ class Part
 
         Controller ctl; //Part controllers
 
-        EffectMgr    *partefx[NUM_PART_EFX]; //insertion part effects (they are part of the instrument)
+        ZynEffectMgr    *partefx[NUM_PART_EFX]; //insertion part effects (they are part of the instrument)
         unsigned char Pefxroute[NUM_PART_EFX]; //how the effect's output is routed(to next effect/to out)
         bool Pefxbypass[NUM_PART_EFX]; //if the effects are bypassed
 
