@@ -93,7 +93,7 @@ Envelope::~Envelope()
 
 
 /*
- * Relase the key (note envelope)
+ * Release the key (note envelope)
  */
 void Envelope::relasekey()
 {
