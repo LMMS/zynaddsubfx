@@ -23,11 +23,11 @@
 #ifndef DYNAMICFILTER_H
 #define DYNAMICFILTER_H
 
-#include "Effect.h"
-#include "EffectLFO.h"
+#include "ZynEffect.h"
+#include "ZynEffectLFO.h"
 
-/**DynamicFilter Effect*/
-class DynamicFilter:public Effect
+/**DynamicFilter ZynEffect*/
+class DynamicFilter:public ZynEffect
 {
     public:
         DynamicFilter(bool insertion_, float *efxoutl_, float *efxoutr_, unsigned int srate, int bufsize);
@@ -41,7 +41,7 @@ class DynamicFilter:public Effect
 
     private:
         //Parametrii DynamicFilter
-        EffectLFO     lfo;          //lfo-ul DynamicFilter
+        ZynEffectLFO     lfo;          //lfo-ul DynamicFilter
         unsigned char Pvolume;      //Volume
         unsigned char Pdepth;       //the depth of the lfo
         unsigned char Pampsns;      //how the filter varies according to the input amplitude

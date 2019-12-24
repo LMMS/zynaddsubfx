@@ -1,7 +1,7 @@
 /*
   ZynAddSubFX - a software synthesizer
 
-  EffectLFO.h - Stereo LFO used by some effects
+  ZynEffectLFO.h - Stereo LFO used by some effects
   Copyright (C) 2002-2005 Nasca Octavian Paul
   Author: Nasca Octavian Paul
 
@@ -23,13 +23,13 @@
 #ifndef EFFECT_LFO_H
 #define EFFECT_LFO_H
 
-/**LFO for some of the Effect objects
+/**LFO for some of the ZynEffect objects
  * \todo see if this should inherit LFO*/
-class EffectLFO
+class ZynEffectLFO
 {
     public:
-        EffectLFO(float srate_f, float bufsize_f);
-        ~EffectLFO();
+        ZynEffectLFO(float srate_f, float bufsize_f);
+        ~ZynEffectLFO();
         void effectlfoout(float *outl, float *outr);
         void updateparams(void);
         unsigned char Pfreq;

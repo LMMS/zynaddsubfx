@@ -27,12 +27,12 @@
 #ifndef PHASER_H
 #define PHASER_H
 #include "../globals.h"
-#include "Effect.h"
-#include "EffectLFO.h"
+#include "ZynEffect.h"
+#include "ZynEffectLFO.h"
 
 #define MAX_PHASER_STAGES 12
 
-class Phaser:public Effect
+class Phaser:public ZynEffect
 {
     public:
         Phaser(const int &insertion_, float *efxoutl_, float *efxoutr_, unsigned int srate, int bufsize);
@@ -45,7 +45,7 @@ class Phaser:public Effect
 
     private:
         //Phaser parameters
-        EffectLFO     lfo;          //Phaser modulator
+        ZynEffectLFO     lfo;          //Phaser modulator
         unsigned char Pvolume;      //Used to set wet/dry mix
         unsigned char Pdistortion;  //Model distortion added by FET element
         unsigned char Pdepth;       //Depth of phaser sweep

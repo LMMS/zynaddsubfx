@@ -1,7 +1,7 @@
 /*
   ZynAddSubFX - a software synthesizer
 
-  EffectMgr.h - Effect manager, an interface betwen the program and effects
+  ZynEffectMgr.h - ZynEffect manager, an interface betwen the program and effects
   Copyright (C) 2002-2005 Nasca Octavian Paul
   Author: Nasca Octavian Paul
 
@@ -28,7 +28,7 @@
 #include "Phaser.h"
 #include "../Params/Presets.h"
 
-class Effect;
+class ZynEffect;
 class FilterParams;
 class XMLwrapper;
 
@@ -39,12 +39,12 @@ class XMLwrapper;
 #include "../Params/FilterParams.h"
 #include "../Params/Presets.h"
 
-/**Effect manager, an interface betwen the program and effects*/
-class EffectMgr:public Presets
+/**ZynEffect manager, an interface betwen the program and effects*/
+class ZynEffectMgr:public Presets
 {
     public:
-        EffectMgr(const bool insertion_, pthread_mutex_t *mutex_);
-        ~EffectMgr();
+        ZynEffectMgr(const bool insertion_, pthread_mutex_t *mutex_);
+        ~ZynEffectMgr();
 
         void add2XML(XMLwrapper *xml);
         void defaults(void);
@@ -78,7 +78,7 @@ class EffectMgr:public Presets
 
     private:
         int     nefx;
-        Effect *efx;
+        ZynEffect *efx;
         pthread_mutex_t *mutex;
         bool dryonly;
 };

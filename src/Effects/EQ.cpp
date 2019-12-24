@@ -25,7 +25,7 @@
 #include "../DSP/AnalogFilter.h"
 
 EQ::EQ(bool insertion_, float *efxoutl_, float *efxoutr_, unsigned int srate, int bufsize)
-    :Effect(insertion_, efxoutl_, efxoutr_, NULL, 0, srate, bufsize)
+    :ZynEffect(insertion_, efxoutl_, efxoutr_, NULL, 0, srate, bufsize)
 {
     for(int i = 0; i < MAX_EQ_BANDS; ++i) {
         filter[i].Ptype   = 0;
@@ -61,7 +61,7 @@ void EQ::cleanup(void)
     }
 }
 
-//Effect output
+//ZynEffect output
 void EQ::out(const Stereo<float *> &smp)
 {
     for(int i = 0; i < buffersize; ++i) {

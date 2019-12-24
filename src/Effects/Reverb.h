@@ -23,13 +23,13 @@
 #ifndef REVERB_H
 #define REVERB_H
 
-#include "Effect.h"
+#include "ZynEffect.h"
 
 #define REV_COMBS 8
 #define REV_APS 4
 
-/**Creates Reverberation Effects*/
-class Reverb:public Effect
+/**Creates Reverberation ZynEffects*/
+class Reverb:public ZynEffect
 {
     public:
         Reverb(bool insertion_, float *efxoutl_, float *efxoutr_, unsigned int srate, int bufsize);

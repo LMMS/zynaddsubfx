@@ -25,7 +25,7 @@
 #include "../DSP/Filter.h"
 
 DynamicFilter::DynamicFilter(bool insertion_, float *efxoutl_, float *efxoutr_, unsigned int srate, int bufsize)
-    :Effect(insertion_, efxoutl_, efxoutr_, new FilterParams(0, 64, 64), 0, srate, bufsize),
+    :ZynEffect(insertion_, efxoutl_, efxoutr_, new FilterParams(0, 64, 64), 0, srate, bufsize),
       lfo(srate, bufsize),
       Pvolume(110),
       Pdepth(0),

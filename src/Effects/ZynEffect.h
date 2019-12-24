@@ -1,7 +1,7 @@
 /*
   ZynAddSubFX - a software synthesizer
 
-  Effect.h - this class is inherited by the all effects(Reverb, Echo, ..)
+  ZynEffect.h - this class is inherited by the all effects(Reverb, Echo, ..)
   Copyright (C) 2002-2005 Nasca Octavian Paul
   Author: Nasca Octavian Paul
 
@@ -31,21 +31,21 @@
 class FilterParams;
 
 /**this class is inherited by the all effects(Reverb, Echo, ..)*/
-class Effect
+class ZynEffect
 {
     public:
         /**
-         * Effect Constructor
-         * @param insertion_ 1 when it is an insertion Effect
-         * @param efxoutl_ Effect output buffer Left channel
-         * @param efxoutr_ Effect output buffer Right channel
+         * ZynEffect Constructor
+         * @param insertion_ 1 when it is an insertion ZynEffect
+         * @param efxoutl_ ZynEffect output buffer Left channel
+         * @param efxoutr_ ZynEffect output buffer Right channel
          * @param filterpars_ pointer to FilterParams array
          * @param Ppreset_ chosen preset
-         * @return Initialized Effect object*/
-        Effect(bool insertion_, float *efxoutl_, float *efxoutr_,
+         * @return Initialized ZynEffect object*/
+        ZynEffect(bool insertion_, float *efxoutl_, float *efxoutr_,
                FilterParams *filterpars_, unsigned char Ppreset_,
                unsigned int srate, int bufsize);
-        virtual ~Effect() {}
+        virtual ~ZynEffect() {}
         /**
          * Choose a preset
          * @param npreset number of chosen preset*/
@@ -63,7 +63,7 @@ class Effect
          *
          * This method should result in the effect generating its results
          * and placing them into the efxoutl and efxoutr buffers.
-         * Every Effect should overide this method.
+         * Every ZynEffect should overide this method.
          *
          * @param smpsl Input buffer for the Left channel
          * @param smpsr Input buffer for the Right channel
@@ -75,8 +75,8 @@ class Effect
         virtual float getfreqresponse(float freq) { return freq; }
 
         unsigned char Ppreset;   /**<Currently used preset*/
-        float *const  efxoutl; /**<Effect out Left Channel*/
-        float *const  efxoutr; /**<Effect out Right Channel*/
+        float *const  efxoutl; /**<ZynEffect out Left Channel*/
+        float *const  efxoutr; /**<ZynEffect out Right Channel*/
         float outvolume; /**<This is the volume of effect and is public because
                           * it is needed in system effects.
                           * The out volume of such effects are always 1.0f, so
@@ -85,7 +85,7 @@ class Effect
 
         float volume;
 
-        FilterParams *filterpars; /**<Parameters for filters used by Effect*/
+        FilterParams *filterpars; /**<Parameters for filters used by ZynEffect*/
 
         //Perform L/R crossover
         static void crossover(float &a, float &b, float crossover);
