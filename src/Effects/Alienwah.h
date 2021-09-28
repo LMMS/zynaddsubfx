@@ -27,8 +27,6 @@
 #include "ZynEffect.h"
 #include "ZynEffectLFO.h"
 
-using namespace std;
-
 #define MAX_ALIENWAH_DELAY 100
 
 /**"AlienWah" ZynEffect*/
@@ -73,8 +71,8 @@ class Alienwah:public ZynEffect
 
         //Internal Values
         float fb, depth, phase;
-        complex<float> *oldl, *oldr;
-        complex<float>  oldclfol, oldclfor;
+        std::complex<float> *oldl, *oldr;
+        std::complex<float>  oldclfol, oldclfor;
         int oldk;
 };
 

@@ -588,7 +588,7 @@ int SUBnote::noteout(float *outl, float *outr)
 }
 
 /*
- * Relase Key (Note Off)
+ * Release Key (Note Off)
  */
 void SUBnote::relasekey()
 {

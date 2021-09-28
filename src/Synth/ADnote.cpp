@@ -1715,7 +1715,7 @@ int ADnote::noteout(float *outl, float *outr)
 
 
 /*
- * Relase the key (NoteOff)
+ * Release the key (NoteOff)
  */
 void ADnote::relasekey()
 {

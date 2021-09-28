@@ -31,8 +31,8 @@ Alienwah::Alienwah(bool insertion_, float *efxoutl_, float *efxoutr_, unsigned i
 {
     setpreset(Ppreset);
     cleanup();
-    oldclfol = complex<float>(fb, 0.0f);
-    oldclfor = complex<float>(fb, 0.0f);
+    oldclfol = std::complex<float>(fb, 0.0f);
+    oldclfor = std::complex<float>(fb, 0.0f);
 }
 
 Alienwah::~Alienwah()
@@ -48,7 +48,7 @@ Alienwah::~Alienwah()
 void Alienwah::out(const Stereo<float *> &smp)
 {
     float lfol, lfor; //Left/Right LFOs
-    complex<float> clfol, clfor;
+    std::complex<float> clfol, clfor;
     /**\todo Rework, as optimization can be used when the new complex type is
      * utilized.
      * Before all calculations needed to be done with individual float,
@@ -56,16 +56,16 @@ void Alienwah::out(const Stereo<float *> &smp)
     lfo.effectlfoout(&lfol, &lfor);
     lfol *= depth * PI * 2.0f;
     lfor *= depth * PI * 2.0f;
-    clfol = complex<float>(cosf(lfol + phase) * fb, sinf(lfol + phase) * fb); //rework
-    clfor = complex<float>(cosf(lfor + phase) * fb, sinf(lfor + phase) * fb); //rework
+    clfol = std::complex<float>(cosf(lfol + phase) * fb, sinf(lfol + phase) * fb); //rework
+    clfor = std::complex<float>(cosf(lfor + phase) * fb, sinf(lfor + phase) * fb); //rework
 
     for(int i = 0; i < buffersize; ++i) {
         float x  = ((float) i) / buffersize_f;
         float x1 = 1.0f - x;
         //left
-        complex<float> tmp = clfol * x + oldclfol * x1;
+        std::complex<float> tmp = clfol * x + oldclfol * x1;
 
-        complex<float> out = tmp * oldl[oldk];
+        std::complex<float> out = tmp * oldl[oldk];
         out += (1 - fabs(fb)) * smp.l[i] * pangainL;
 
         oldl[oldk] = out;
@@ -96,8 +96,8 @@ void Alienwah::out(const Stereo<float *> &smp)
 void Alienwah::cleanup(void)
 {
     for(int i = 0; i < Pdelay; ++i) {
-        oldl[i] = complex<float>(0.0f, 0.0f);
-        oldr[i] = complex<float>(0.0f, 0.0f);
+        oldl[i] = std::complex<float>(0.0f, 0.0f);
+        oldr[i] = std::complex<float>(0.0f, 0.0f);
     }
     oldk = 0;
 }
@@ -144,8 +144,8 @@ void Alienwah::setdelay(unsigned char _Pdelay)
     if(oldr != NULL)
         delete [] oldr;
     Pdelay = (_Pdelay >= MAX_ALIENWAH_DELAY) ? MAX_ALIENWAH_DELAY : _Pdelay;
-    oldl   = new complex<float>[Pdelay];
-    oldr   = new complex<float>[Pdelay];
+    oldl   = new std::complex<float>[Pdelay];
+    oldr   = new std::complex<float>[Pdelay];
     cleanup();
 }
 

@@ -148,7 +148,7 @@
 1.2.1 (6 Apr 2003)
       - improved filter interpolation
       - bugfix: wav header is written correctly
-      - bugfix: NRPN works correctly (eg:the controller was 0x98 instead of 98), now you can controll all effects parametrer realtime via MIDI
+      - bugfix: NRPN works correctly (eg:the controller was 0x98 instead of 98), now you can control all effects parameters realtime via MIDI
       - bugfix: pitch bend works OK in windows
       - added master fine detune (-64..63 cents)
       - it is possible to swap effects or copy them
