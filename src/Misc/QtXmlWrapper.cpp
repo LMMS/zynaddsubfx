@@ -196,7 +196,7 @@ int QtXmlWrapper::dosavefile(const char *filename,
                            int compression,
                            const char *xmldata) const
 {
-    FILE *file = F_OPEN_UTF8(std::string(filename), "w");
+    FILE *file = lmms::F_OPEN_UTF8(std::string(filename), "w");
     if(file == NULL) {
         return -1;
     }
@@ -214,7 +214,7 @@ int QtXmlWrapper::dosavefile(const char *filename,
         snprintf(options, 10, "wb%d", compression);
 
         gzFile gzfile;
-        gzfile = gzdopen(fileToDescriptor(file), options);
+        gzfile = gzdopen(lmms::fileToDescriptor(file), options);
         if(gzfile == NULL)
             return -1;
         gzputs(gzfile, xmldata);
@@ -318,7 +318,7 @@ char *QtXmlWrapper::doloadfile(const std::string &filename) const
 {
     char  *xmldata = NULL;
 
-    gzFile gzfile  = gzdopen(fileToDescriptor(F_OPEN_UTF8(filename, "rb")), "rb");
+    gzFile gzfile  = gzdopen(lmms::fileToDescriptor(lmms::F_OPEN_UTF8(filename, "rb")), "rb");
 
     if(gzfile != NULL) { //The possibly compressed file opened
         std::stringstream strBuf;             //reading stream
@@ -510,7 +510,7 @@ float QtXmlWrapper::getparreal(const char *name, float defaultpar) const
 		return defaultpar;
 	}
 
-	return LocaleHelper::toFloat( tmp.attribute( "value" ) );
+	return lmms::LocaleHelper::toFloat( tmp.attribute( "value" ) );
 }
 
 float QtXmlWrapper::getparreal(const char *name,
