@@ -36,8 +36,6 @@
 #include <algorithm>
 #include <cmath>
 
-#include <unistd.h>
-
 using namespace std;
 
 vuData::vuData(void)
@@ -55,8 +53,6 @@ Master::Master()
     bufl = new float[synth->buffersize];
     bufr = new float[synth->buffersize];
 
-    pthread_mutex_init(&mutex, NULL);
-    pthread_mutex_init(&vumutex, NULL);
     fft = new FFTwrapper(synth->oscilsize);
 
     shutup = 0;
@@ -116,11 +112,11 @@ bool Master::mutexLock(lockset request)
 {
     switch(request) {
         case MUTEX_TRYLOCK:
-            return !pthread_mutex_trylock(&mutex);
+            return mutex.try_lock();
         case MUTEX_LOCK:
-            return !pthread_mutex_lock(&mutex);
+            mutex.lock(); return true;
         case MUTEX_UNLOCK:
-            return !pthread_mutex_unlock(&mutex);
+            mutex.unlock(); return true;
     }
     return false;
 }
@@ -245,9 +241,9 @@ void Master::setProgram(char chan, unsigned int pgm)
             //Hack to get pad note parameters to update
             //this is not real time safe and makes assumptions about the calling
             //convention of this function...
-            pthread_mutex_unlock(&mutex);
+            mutex.unlock();
             part[npart]->applyparameters();
-            pthread_mutex_lock(&mutex);
+            mutex.lock();
         }
 }
 
@@ -336,9 +332,9 @@ void Master::AudioOut(float *outl, float *outr)
 
     //Compute part samples and store them part[npart]->partoutl,partoutr
     for(int npart = 0; npart < NUM_MIDI_PARTS; ++npart) {
-        if(part[npart]->Penabled != 0 && !pthread_mutex_trylock(&part[npart]->load_mutex)) {
+        if(part[npart]->Penabled != 0 && part[npart]->load_mutex.try_lock()) {
             part[npart]->ComputePartSmps();
-            pthread_mutex_unlock(&part[npart]->load_mutex);
+            part[npart]->load_mutex.unlock();
         }
     }
 
@@ -394,8 +390,13 @@ void Master::AudioOut(float *outl, float *outr)
         if(sysefx[nefx]->geteffect() == 0)
             continue;  //the effect is disabled
 
+#ifdef _MSC_VER
+        const auto tmpmixl = static_cast<float*>(_alloca(synth->buffersize * sizeof(float)));
+        const auto tmpmixr = static_cast<float*>(_alloca(synth->buffersize * sizeof(float)));
+#else
         float tmpmixl[synth->buffersize];
         float tmpmixr[synth->buffersize];
+#endif
         //Clean up the samples used by the system effects
         memset(tmpmixl, 0, synth->bufferbytes);
         memset(tmpmixr, 0, synth->bufferbytes);
@@ -458,9 +459,9 @@ void Master::AudioOut(float *outl, float *outr)
         outr[i] *= volume;
     }
 
-    if(!pthread_mutex_trylock(&vumutex)) {
+    if(vumutex.try_lock()) {
         vuUpdate(outl, outr);
-        pthread_mutex_unlock(&vumutex);
+        vumutex.unlock();
     }
 
     //Shutup if it is asked (with fade-out)
@@ -530,9 +531,6 @@ Master::~Master()
         delete sysefx[nefx];
 
     delete fft;
-
-    pthread_mutex_destroy(&mutex);
-    pthread_mutex_destroy(&vumutex);
 }
 
 
@@ -588,21 +586,21 @@ void Master::ShutUp()
  */
 void Master::vuresetpeaks()
 {
-    pthread_mutex_lock(&vumutex);
+    vumutex.lock();
     vu.outpeakl    = 1e-9;
     vu.outpeakr    = 1e-9;
     vu.maxoutpeakl = 1e-9;
     vu.maxoutpeakr = 1e-9;
     vu.clipped     = 0;
-    pthread_mutex_unlock(&vumutex);
+    vumutex.unlock();
 }
 
 vuData Master::getVuData()
 {
     vuData tmp;
-    pthread_mutex_lock(&vumutex);
+    vumutex.lock();
     tmp = vu;
-    pthread_mutex_unlock(&vumutex);
+    vumutex.unlock();
     return tmp;
 }
 
@@ -673,9 +671,9 @@ int Master::getalldata(char **data)
 
     xml->beginbranch("MASTER");
 
-    pthread_mutex_lock(&mutex);
+    mutex.lock();
     add2XML(xml);
-    pthread_mutex_unlock(&mutex);
+    mutex.unlock();
 
     xml->endbranch();
 
@@ -695,9 +693,9 @@ void Master::putalldata(char *data, int /*size*/)
     if(xml->enterbranch("MASTER") == 0)
         return;
 
-    pthread_mutex_lock(&mutex);
+    mutex.lock();
     getfromXML(xml);
-    pthread_mutex_unlock(&mutex);
+    mutex.unlock();
 
     xml->exitbranch();
 

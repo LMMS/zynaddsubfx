@@ -31,10 +31,15 @@
 #include <algorithm>
 #include <iostream>
 
+#ifdef WIN32
+#include <wchar.h>
+#include "IoHelper.h"
+#else
 #include <sys/types.h>
 #include <fcntl.h>
 #include <unistd.h>
 #include <errno.h>
+#endif
 
 #include "Config.h"
 #include "Util.h"
@@ -260,14 +265,14 @@ int Bank::newbank(string newbankdirname)
 
     // FIXME: Zyn should automatically handle creation of parent directory
 #ifdef WIN32
-    if(mkdir(bankdir.c_str()) < 0) return -1;
+    if(_wmkdir(lmms::toWString(bankdir).c_str()) < 0) return -1;
 #else
     if(mkdir(bankdir.c_str(), S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH)) return -1;
 #endif
 
     bankdir += newbankdirname;
 #ifdef WIN32
-    if(mkdir(bankdir.c_str()) < 0)
+    if(_wmkdir(lmms::toWString(bankdir).c_str()) < 0)
 #else
     if(mkdir(bankdir.c_str(), S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH) < 0)
 #endif

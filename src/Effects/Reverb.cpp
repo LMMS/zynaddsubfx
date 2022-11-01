@@ -144,7 +144,11 @@ void Reverb::out(const Stereo<float *> &smp)
     if(!Pvolume && insertion)
         return;
 
+#ifdef _MSC_VER
+    const auto inputbuf = static_cast<float*>(_alloca(buffersize * sizeof(float)));
+#else
     float inputbuf[buffersize];
+#endif
     for(int i = 0; i < buffersize; ++i)
         inputbuf[i] = (smp.l[i] + smp.r[i]) / 2.0f;
 

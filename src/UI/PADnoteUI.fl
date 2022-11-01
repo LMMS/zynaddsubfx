@@ -61,7 +61,11 @@ this->pars=pars;} {}
   Function {draw()} {} {
     code {int ox=x(),oy=y(),lx=w(),ly=h();
 if (!visible()) return;
+\#ifdef _MSC_VER
+const auto smps = static_cast<float*>(_alloca(lx * sizeof(float)));
+\#else
 float smps[lx];
+\#endif
 
 float realbw=pars->getprofile(smps,lx);
 bool active=active_r();
@@ -160,12 +164,16 @@ for (int i=1;i<maxharmonic;i++){
 
 
 int n=synth->oscilsize/2;
+\#ifdef _MSC_VER
+const auto spc = static_cast<float*>(_alloca(n * sizeof(float)));
+\#else
 float spc[n];
+\#endif
 for (int i=0;i<n;i++) spc[i]=0.0;
 
-pthread_mutex_lock(&master->mutex);
+master->mutex.lock();
 pars->oscilgen->getspectrum(n,spc,0);
-pthread_mutex_unlock(&master->mutex);
+master->mutex.unlock();
 
 
 //normalize
@@ -177,7 +185,11 @@ for (int i=0;i<n;i++){
 if (max<0.000001) max=1.0;
 max=max*1.05;
 
+\#ifdef _MSC_VER
+const auto spectrum = static_cast<float*>(_alloca(lx * sizeof(float)));
+\#else
 float spectrum[lx];
+\#endif
 for (int i=0;i<lx;i++) spectrum[i]=0;
 
 

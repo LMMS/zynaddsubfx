@@ -197,9 +197,9 @@ if (part->kit[n].Ppadenabled!=0) padeditbutton->activate();
         callback {int answer=1;
 if (o->value()==0) answer=fl_choice("Delete the item?","No","Yes",NULL);
 if (answer!=0){
-pthread_mutex_lock(&master->mutex);
+master->mutex.lock();
  part->setkititemstatus(n,(int) o->value());
-pthread_mutex_unlock(&master->mutex);
+master->mutex.unlock();
 
 if (o->value()==0) partkititemgroup->deactivate();
 else partkititemgroup->activate();
@@ -238,9 +238,9 @@ this->redraw();} {
       callback {int answer=1;
 if (o->value()==0) answer=fl_choice("Delete the item?","No","Yes",NULL);
 if (answer!=0){
-pthread_mutex_lock(&master->mutex);
+master->mutex.lock();
  part->setkititemstatus(n,(int) o->value());
-pthread_mutex_unlock(&master->mutex);
+master->mutex.unlock();
 
 if (o->value()==0) partkititemgroup->deactivate();
 else partkititemgroup->activate();
@@ -441,9 +441,9 @@ part->setkeylimit(val);} open
       }
       Fl_Check_Button {} {
         label Enabled
-        callback {pthread_mutex_lock(&master->mutex);
+        callback {master->mutex.lock();
 master->partonoff(npart,(int) o->value());
-pthread_mutex_unlock(&master->mutex);
+master->mutex.unlock();
 if (part->Penabled==0) partgroupui->deactivate();
     else partgroupui->activate();}
         xywh {90 5 75 20} down_box DOWN_BOX labelfont 1 labelsize 11
@@ -654,9 +654,9 @@ sendtochoice->value(x);}
       }
       Fl_Choice insefftype {
         label EffType
-        callback {pthread_mutex_lock(part->mutex);
+        callback {part->mutex->lock();
 part->partefx[ninseff]->changeeffect((int) o->value());
-pthread_mutex_unlock(part->mutex);
+part->mutex->unlock();
 inseffectui->refresh(part->partefx[ninseff]);}
         xywh {155 110 70 15} down_box BORDER_BOX labelsize 10 align 6
         code0 {o->value(part->partefx[ninseff]->geteffect());}
@@ -748,9 +748,9 @@ if (x==2) part->partefx[ninseff]->setdryonly(true);
       }
       Fl_Button {} {
         label P
-        callback {pthread_mutex_lock(&master->mutex);
+        callback {master->mutex.lock();
 presetsui->paste(part->partefx[ninseff],inseffectui);
-pthread_mutex_unlock(&master->mutex);}
+master->mutex.unlock();}
         xywh {120 127 25 15} box THIN_UP_BOX color 179 labelfont 1 labelsize 11 labelcolor 55
       }
     }

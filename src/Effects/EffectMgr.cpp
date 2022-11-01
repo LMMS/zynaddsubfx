@@ -34,7 +34,7 @@
 #include <iostream>
 using namespace std;
 
-EffectMgr::EffectMgr(const bool insertion_, pthread_mutex_t *mutex_)
+EffectMgr::EffectMgr(const bool insertion_, std::mutex *mutex_)
     :insertion(insertion_),
       efxoutl(new float[synth->buffersize]),
       efxoutr(new float[synth->buffersize]),
@@ -142,9 +142,9 @@ void EffectMgr::changepreset_nolock(unsigned char npreset)
 //Change the preset of the current effect(with thread locking)
 void EffectMgr::changepreset(unsigned char npreset)
 {
-    pthread_mutex_lock(mutex);
+    mutex->lock();
     changepreset_nolock(npreset);
-    pthread_mutex_unlock(mutex);
+    mutex->unlock();
 }
 
 
@@ -159,9 +159,9 @@ void EffectMgr::seteffectpar_nolock(int npar, unsigned char value)
 // Change a parameter of the current effect (with thread locking)
 void EffectMgr::seteffectpar(int npar, unsigned char value)
 {
-    pthread_mutex_lock(mutex);
+    mutex->lock();
     seteffectpar_nolock(npar, value);
-    pthread_mutex_unlock(mutex);
+    mutex->unlock();
 }
 
 //Get a parameter of the current effect

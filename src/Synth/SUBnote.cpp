@@ -20,6 +20,7 @@
 
 */
 
+#define _USE_MATH_DEFINES
 #include <cmath>
 #include <cstdlib>
 #include <cstdio>
@@ -505,8 +506,13 @@ int SUBnote::noteout(float *outl, float *outr)
     if(NoteEnabled == OFF)
         return 0;
 
+#ifdef _MSC_VER
+    const auto tmprnd = static_cast<float*>(_alloca(synth->buffersize * sizeof(float)));
+    const auto tmpsmp = static_cast<float*>(_alloca(synth->buffersize * sizeof(float)));
+#else
     float tmprnd[synth->buffersize];
     float tmpsmp[synth->buffersize];
+#endif
     //left channel
     for(int i = 0; i < synth->buffersize; ++i)
         tmprnd[i] = RND * 2.0f - 1.0f;
