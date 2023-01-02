@@ -23,8 +23,8 @@
 #ifndef NUL_ENGINE_H
 #define NUL_ENGINE_H
 
-#include <sys/time.h>
-#include <pthread.h>
+#include <chrono>
+#include "ThreadShims.h"
 #include "../globals.h"
 #include "AudioOut.h"
 #include "MidiIn.h"
@@ -49,8 +49,8 @@ class NulEngine:public AudioOut, MidiIn
         static void *_AudioThread(void *arg);
 
     private:
-        struct timeval playing_until;
-        pthread_t     *pThread;
+        std::chrono::steady_clock::time_point playing_until;
+        std::thread *pThread;
 };
 
 #endif

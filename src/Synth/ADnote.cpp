@@ -136,7 +136,11 @@ ADnote::ADnote(ADnoteParameters *pars,
             };
                 break;
             default: { //unison for more than 2 subvoices
+#ifdef _MSC_VER
+                const auto unison_values = static_cast<float*>(_alloca(unison * sizeof(float)));
+#else
                 float unison_values[unison];
+#endif
                 float min = -1e-6, max = 1e-6;
                 for(int k = 0; k < unison; ++k) {
                     float step = (k / (float) (unison - 1)) * 2.0f - 1.0f; //this makes the unison spread more uniform

@@ -29,7 +29,7 @@ if(LibloEnable)
     set(zynaddsubfx_gui_FLTK_UI_SRCS ${zynaddsubfx_gui_FLTK_UI_SRCS} NSM.C NSM/Client.C)
 endif()
 
-add_library(zynaddsubfx_gui STATIC
+add_library(zynaddsubfx_gui OBJECT
 	${UI_objs}
 	${zynaddsubfx_gui_FLTK_UI_SRCS}
         NioUI.cpp

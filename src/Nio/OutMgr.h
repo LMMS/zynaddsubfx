@@ -4,8 +4,6 @@
 #include "../Misc/Stereo.h"
 #include <list>
 #include <string>
-#include <pthread.h>
-#include <semaphore.h>
 
 
 class AudioOut;
@@ -48,8 +46,6 @@ class OutMgr
         void removeStaleSmps();
 
         AudioOut *currentOut; /**<The current output driver*/
-
-        sem_t requested;
 
         /**Buffer*/
         Stereo<float *> priBuf;          //buffer for primary drivers

@@ -32,7 +32,7 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <fcntl.h>
-#include <unistd.h>
+#include "ThreadShims.h"
 #include <errno.h>
 #include <string.h>
 #ifdef HAVE_SCHEDULER
@@ -135,7 +135,7 @@ void set_realtime()
 
 void os_sleep(long length)
 {
-    usleep(length);
+    std::this_thread::sleep_for(std::chrono::microseconds{length});
 }
 
 std::string legalizeFilename(std::string filename)

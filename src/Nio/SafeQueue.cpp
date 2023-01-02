@@ -3,8 +3,8 @@ template<class T>
 SafeQueue<T>::SafeQueue(size_t maxlen)
     :writePtr(0), readPtr(0), bufSize(maxlen)
 {
-    w_space.init(PTHREAD_PROCESS_PRIVATE, maxlen - 1);
-    r_space.init(PTHREAD_PROCESS_PRIVATE, 0);
+    w_space.init(0, maxlen - 1);
+    r_space.init(0, 0);
     buffer = new T[maxlen];
 }
 

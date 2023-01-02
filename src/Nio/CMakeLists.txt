@@ -42,6 +42,6 @@ if(OssEnable)
 endif(OssEnable)
 
 
-add_library(zynaddsubfx_nio STATIC
+add_library(zynaddsubfx_nio OBJECT
     ${zynaddsubfx_nio_SRCS} 
     )

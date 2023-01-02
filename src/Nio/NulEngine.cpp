@@ -23,17 +23,16 @@
 #include "NulEngine.h"
 #include "../globals.h"
 
-#include <unistd.h>
 #include <iostream>
 
 using namespace std;
+using Clock = std::chrono::steady_clock;
 
 NulEngine::NulEngine()
     :AudioOut(), pThread(NULL)
 {
     name = "NULL";
-    playing_until.tv_sec  = 0;
-    playing_until.tv_usec = 0;
+    playing_until = Clock::time_point::min();
 }
 
 void *NulEngine::_AudioThread(void *arg)
@@ -46,28 +45,24 @@ void *NulEngine::AudioThread()
     while(pThread) {
         getNext();
 
-        struct timeval now;
-        int remaining = 0;
-        gettimeofday(&now, NULL);
-        if((playing_until.tv_usec == 0) && (playing_until.tv_sec == 0)) {
-            playing_until.tv_usec = now.tv_usec;
-            playing_until.tv_sec  = now.tv_sec;
+        using namespace std::literals::chrono_literals;
+        const auto now = Clock::now();
+        auto remaining = Clock::duration{};
+        if(playing_until == Clock::time_point::min()) {
+            playing_until = now;
         }
         else {
-            remaining = (playing_until.tv_usec - now.tv_usec)
-                        + (playing_until.tv_sec - now.tv_sec) * 1000000;
-            if(remaining > 10000) //Don't sleep() less than 10ms.
+            remaining = playing_until - now;
+            if(remaining > 10ms) //Don't sleep() less than 10ms.
                 //This will add latency...
-                usleep(remaining - 10000);
-            if(remaining < 0)
+                std::this_thread::sleep_for(remaining - 10ms);
+            if(remaining < 0ms)
                 cerr << "WARNING - too late" << endl;
         }
-        playing_until.tv_usec += synth->buffersize * 1000000
+        playing_until += synth->buffersize * std::chrono::duration_cast<Clock::duration>(1s)
                                  / synth->samplerate;
-        if(remaining < 0)
-            playing_until.tv_usec -= remaining;
-        playing_until.tv_sec  += playing_until.tv_usec / 1000000;
-        playing_until.tv_usec %= 1000000;
+        if(remaining < 0ms)
+            playing_until -= remaining;
     }
     return NULL;
 }
@@ -90,19 +85,14 @@ void NulEngine::setAudioEn(bool nval)
 {
     if(nval) {
         if(!getAudioEn()) {
-            pthread_t     *thread = new pthread_t;
-            pthread_attr_t attr;
-            pthread_attr_init(&attr);
-            pthread_attr_setdetachstate(&attr, PTHREAD_CREATE_JOINABLE);
-            pThread = thread;
-            pthread_create(pThread, &attr, _AudioThread, this);
+            pThread = new std::thread{_AudioThread, this};
         }
     }
     else
     if(getAudioEn()) {
-        pthread_t *thread = pThread;
+        std::thread *thread = pThread;
         pThread = NULL;
-        pthread_join(*thread, NULL);
+        thread->join();
         delete thread;
     }
 }

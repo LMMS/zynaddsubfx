@@ -35,12 +35,12 @@
 #include "FilterParams.h"
 #include "Presets.h"
 #include <string>
-#include <pthread.h>
+#include "ThreadShims.h"
 
 class PADnoteParameters:public Presets
 {
     public:
-        PADnoteParameters(FFTwrapper *fft_, pthread_mutex_t *mutex_);
+        PADnoteParameters(FFTwrapper *fft_, std::mutex *mutex_);
         ~PADnoteParameters();
 
         void defaults();
@@ -171,7 +171,7 @@ class PADnoteParameters:public Presets
         void deletesample(int n);
 
         FFTwrapper *fft;
-        pthread_mutex_t *mutex;
+        std::mutex *mutex;
 };
 
 

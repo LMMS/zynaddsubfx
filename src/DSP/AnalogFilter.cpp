@@ -391,7 +391,11 @@ void AnalogFilter::filterout(float *smp)
 
     if(needsinterpolation) {
         //Merge Filter at old coeff with new coeff
+#ifdef _MSC_VER
+        const auto ismp = static_cast<float*>(_alloca(buffersize * sizeof(float)));
+#else
         float ismp[buffersize];
+#endif
         memcpy(ismp, smp, bufferbytes);
 
         for(int i = 0; i < stages + 1; ++i)

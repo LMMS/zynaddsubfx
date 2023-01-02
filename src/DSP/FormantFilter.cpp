@@ -204,13 +204,18 @@ void FormantFilter::setfreq_and_q(float frequency, float q_)
 
 void FormantFilter::filterout(float *smp)
 {
+#ifdef _MSC_VER
+    const auto inbuffer = static_cast<float*>(_alloca(buffersize * sizeof(float)));
+    const auto tmpbuf = static_cast<float*>(_alloca(buffersize * sizeof(float)));
+#else
     float inbuffer[buffersize];
+    float tmpbuf[buffersize];
+#endif
 
     memcpy(inbuffer, smp, bufferbytes);
     memset(smp, 0, bufferbytes);
 
     for(int j = 0; j < numformants; ++j) {
-        float tmpbuf[buffersize];
         for(int i = 0; i < buffersize; ++i)
             tmpbuf[i] = inbuffer[i] * outgain;
         formant[j]->filterout(tmpbuf);

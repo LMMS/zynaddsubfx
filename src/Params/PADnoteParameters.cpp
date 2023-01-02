@@ -24,7 +24,7 @@
 #include "../Misc/WavFile.h"
 
 PADnoteParameters::PADnoteParameters(FFTwrapper *fft_,
-                                     pthread_mutex_t *mutex_):Presets()
+                                     std::mutex *mutex_):Presets()
 {
     setpresettype("Ppadsynth");
 
@@ -395,7 +395,11 @@ void PADnoteParameters::generatespectrum_bandwidthMode(float *spectrum,
     for(int i = 0; i < size; ++i)
         spectrum[i] = 0.0f;
 
+#ifdef _MSC_VER
+    const auto harmonics = static_cast<float*>(_alloca(synth->oscilsize / 2 * sizeof(float)));
+#else
     float harmonics[synth->oscilsize / 2];
+#endif
     for(int i = 0; i < synth->oscilsize / 2; ++i)
         harmonics[i] = 0.0f;
     //get the harmonic structure from the oscillator (I am using the frequency amplitudes, only)
@@ -503,7 +507,11 @@ void PADnoteParameters::generatespectrum_otherModes(float *spectrum,
     for(int i = 0; i < size; ++i)
         spectrum[i] = 0.0f;
 
+#ifdef _MSC_VER
+    const auto harmonics = static_cast<float*>(_alloca(synth->oscilsize / 2 * sizeof(float)));
+#else
     float harmonics[synth->oscilsize / 2];
+#endif
     for(int i = 0; i < synth->oscilsize / 2; ++i)
         harmonics[i] = 0.0f;
     //get the harmonic structure from the oscillator (I am using the frequency amplitudes, only)
@@ -565,7 +573,11 @@ void PADnoteParameters::applyparameters(bool lockmutex)
     int       spectrumsize = samplesize / 2;
     float    *spectrum     = new float[spectrumsize];
     int       profilesize = 512;
+#ifdef _MSC_VER
+    const auto profile = static_cast<float*>(_alloca(profilesize * sizeof(float)));
+#else
     float     profile[profilesize];
+#endif
 
 
     float bwadjust = getprofile(profile, profilesize);
@@ -591,7 +603,11 @@ void PADnoteParameters::applyparameters(bool lockmutex)
     FFTwrapper *fft      = new FFTwrapper(samplesize);
     fft_t      *fftfreqs = new fft_t[samplesize / 2];
 
+#ifdef _MSC_VER
+    const auto adj = static_cast<float*>(_alloca(samplemax * sizeof(float)));
+#else
     float adj[samplemax]; //this is used to compute frequency relation to the base frequency
+#endif
     for(int nsample = 0; nsample < samplemax; ++nsample)
         adj[nsample] = (Pquality.oct + 1.0f) * (float)nsample / samplemax;
     for(int nsample = 0; nsample < samplemax; ++nsample) {
@@ -637,12 +653,12 @@ void PADnoteParameters::applyparameters(bool lockmutex)
 
         //replace the current sample with the new computed sample
         if(lockmutex) {
-            pthread_mutex_lock(mutex);
+            mutex->lock();
             deletesample(nsample);
             sample[nsample].smp      = newsample.smp;
             sample[nsample].size     = samplesize;
             sample[nsample].basefreq = basefreq * basefreqadjust;
-            pthread_mutex_unlock(mutex);
+            mutex->unlock();
         }
         else {
             deletesample(nsample);
@@ -658,10 +674,10 @@ void PADnoteParameters::applyparameters(bool lockmutex)
 
     //delete the additional samples that might exists and are not useful
     if(lockmutex) {
-        pthread_mutex_lock(mutex);
+        mutex->lock();
         for(int i = samplemax; i < PAD_MAX_SAMPLES; ++i)
             deletesample(i);
-        pthread_mutex_unlock(mutex);
+        mutex->unlock();
     }
     else
         for(int i = samplemax; i < PAD_MAX_SAMPLES; ++i)

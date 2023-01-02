@@ -23,7 +23,7 @@
 
 #ifndef MASTER_H
 #define MASTER_H
-#include <pthread.h>
+#include "ThreadShims.h"
 
 #include "../globals.h"
 #include "Microtonal.h"
@@ -162,8 +162,8 @@ class Master
         Bank       bank;
 
         class FFTwrapper * fft;
-        pthread_mutex_t mutex;
-        pthread_mutex_t vumutex;
+        std::mutex mutex;
+        std::mutex vumutex;
 
 
     private:

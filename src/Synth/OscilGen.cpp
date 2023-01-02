@@ -25,6 +25,7 @@
 
 #include <cassert>
 #include <stdlib.h>
+#define _USE_MATH_DEFINES
 #include <math.h>
 #include <stdio.h>
 
@@ -203,7 +204,11 @@ void OscilGen::defaults()
 void OscilGen::convert2sine()
 {
     float  mag[MAX_AD_HARMONICS], phase[MAX_AD_HARMONICS];
+#ifdef _MSC_VER
+    const auto oscil = static_cast<float*>(_alloca(synth->oscilsize * sizeof(float)));
+#else
     float  oscil[synth->oscilsize];
+#endif
     fft_t *freqs = new fft_t[synth->oscilsize / 2];
 
     get(oscil, -1.0f);

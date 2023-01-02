@@ -28,7 +28,7 @@ using namespace std;
 WavEngine::WavEngine()
     :AudioOut(), file(NULL), buffer(synth->samplerate * 4), pThread(NULL)
 {
-    work.init(PTHREAD_PROCESS_PRIVATE, 0);
+    work.init(0, 0);
 }
 
 WavEngine::~WavEngine()
@@ -46,12 +46,7 @@ bool WavEngine::Start()
 {
     if(pThread)
         return true;
-    pThread = new pthread_t;
-
-    pthread_attr_t attr;
-    pthread_attr_init(&attr);
-    pthread_attr_setdetachstate(&attr, PTHREAD_CREATE_JOINABLE);
-    pthread_create(pThread, &attr, _AudioThread, this);
+    pThread = new std::thread{_AudioThread, this};
 
     return true;
 }
@@ -61,11 +56,11 @@ void WavEngine::Stop()
     if(!pThread)
         return;
 
-    pthread_t *tmp = pThread;
+    std::thread *tmp = pThread;
     pThread = NULL;
 
     work.post();
-    pthread_join(*tmp, NULL);
+    tmp->join();
     delete pThread;
 }
 

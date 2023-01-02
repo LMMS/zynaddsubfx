@@ -165,7 +165,11 @@ void SVFilter::filterout(float *smp)
         singlefilterout(smp, st[i], par);
 
     if(needsinterpolation) {
+#ifdef _MSC_VER
+        const auto ismp = static_cast<float*>(_alloca(buffersize * sizeof(float)));
+#else
         float ismp[buffersize];
+#endif
         memcpy(ismp, smp, bufferbytes);
 
         for(int i = 0; i < stages + 1; ++i)
