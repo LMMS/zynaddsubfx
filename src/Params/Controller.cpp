@@ -72,7 +72,7 @@ void Controller::resetall()
     setpitchwheel(0); //center
     setexpression(127);
     setpanning(64);
-    setfiltercutoff(64);
+    setfiltercutoff(127);
     setfilterq(64);
     setbandwidth(64);
     setmodwheel(64);
