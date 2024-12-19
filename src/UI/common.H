@@ -20,6 +20,10 @@
 class Fl_Widget;
 extern void set_module_parameters ( Fl_Widget * );
 
+#ifdef WIN32
+#include <windows.h>
+#endif
+
 #ifdef FLTK_GUI
 #define fl_color_add_alpha( x,y ) x 
 #undef FL_NO_BOX
