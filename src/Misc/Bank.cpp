@@ -265,18 +265,17 @@ int Bank::newbank(string newbankdirname)
 
     // FIXME: Zyn should automatically handle creation of parent directory
 #ifdef WIN32
-    if(_wmkdir(lmms::toWString(bankdir).c_str()) < 0) return -1;
+    if(_wmkdir(lmms::toWString(bankdir).get()) < 0) { return -1; }
 #else
-    if(mkdir(bankdir.c_str(), S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH)) return -1;
+    if(mkdir(bankdir.c_str(), S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH)) { return -1; }
 #endif
 
     bankdir += newbankdirname;
 #ifdef WIN32
-    if(_wmkdir(lmms::toWString(bankdir).c_str()) < 0)
+    if(_wmkdir(lmms::toWString(bankdir).get()) < 0) { return -1; }
 #else
-    if(mkdir(bankdir.c_str(), S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH) < 0)
+    if(mkdir(bankdir.c_str(), S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH) < 0) { return -1; }
 #endif
-        return -1;
 
     const string tmpfilename = bankdir + '/' + FORCE_BANK_DIR_FILE;
 
