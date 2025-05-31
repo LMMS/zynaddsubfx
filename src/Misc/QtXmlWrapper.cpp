@@ -57,8 +57,7 @@
 #include "../globals.h"
 #include "Util.h"
 
-// Include LMMS headers
-#include "lmmsconfig.h"
+// Include headers originally from LMMS
 #include "IoHelper.h"
 #include "LocaleHelper.h"
 
