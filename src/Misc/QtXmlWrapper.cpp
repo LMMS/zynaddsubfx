@@ -57,8 +57,7 @@
 #include "../globals.h"
 #include "Util.h"
 
-// Include LMMS headers
-#include "lmmsconfig.h"
+// Include headers originally from LMMS
 #include "IoHelper.h"
 #include "LocaleHelper.h"
 
@@ -196,7 +195,7 @@ int QtXmlWrapper::dosavefile(const char *filename,
                            int compression,
                            const char *xmldata) const
 {
-    FILE *file = lmms::F_OPEN_UTF8(std::string(filename), "w");
+    FILE *file = lmms::fopenUtf8(filename, "w");
     if(file == NULL) {
         return -1;
     }
@@ -318,7 +317,7 @@ char *QtXmlWrapper::doloadfile(const std::string &filename) const
 {
     char  *xmldata = NULL;
 
-    gzFile gzfile  = gzdopen(lmms::fileToDescriptor(lmms::F_OPEN_UTF8(filename, "rb")), "rb");
+    gzFile gzfile  = gzdopen(lmms::fileToDescriptor(lmms::fopenUtf8(filename, "rb")), "rb");
 
     if(gzfile != NULL) { //The possibly compressed file opened
         std::stringstream strBuf;             //reading stream
